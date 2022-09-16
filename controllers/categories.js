@@ -40,12 +40,13 @@ const updateCategory = async (req, res) => {
       return res.sendStatus(404);
     }
 
-    await Category.update({ name, description, image }, {
+    const update = await Category.update({ name, description, image }, {
       where: {
         id,
       },
     });
-    return res.sendStatus(204);
+    const categoryUpdated = await Category.findByPk(id);
+    return res.status(200).json(categoryUpdated);
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -62,7 +63,13 @@ const deleteCategory = async (req, res) => {
         id,
       },
     });
-    return res.sendStatus(204);
+    const categoryDeleted = await Category.findByPk(
+      id,
+      {
+        paranoid: false,
+      },
+    );
+    return res.status(200).json(categoryDeleted);
   } catch (error) {
     return res.status(500).json(error);
   }
