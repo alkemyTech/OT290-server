@@ -13,3 +13,24 @@ const S3 = require('aws-sdk/clients/s3');
 const s3 = new S3({
   apiVersion: '2006-03-01'
 });
+
+const uploadFileS3 = (params) => {
+    // Setting up S3 upload parameters
+    const uploadParams = {
+        Bucket: Bucket,
+        Key: params.key,
+        Body: params.buffer,
+    };
+
+    // Uploading files to the bucket
+    s3.upload(uploadParams, function(err, data) {
+        if (err) {
+            throw err;
+        }
+        console.log(`File uploaded successfully. ${data.Location}`);
+    });
+};
+
+module.exports = {
+    uploadToBucket
+  };
