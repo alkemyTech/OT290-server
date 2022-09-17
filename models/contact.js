@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   Contact.init(
     {
       name: DataTypes.STRING,
-      phone: DataTypes.NUMBER,
+      phone: DataTypes.INTEGER,
       email: DataTypes.STRING,
       message: DataTypes.TEXT,
       deletedAt: DataTypes.DATE,

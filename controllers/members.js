@@ -1,4 +1,4 @@
-const { Members } = require('../models/members');
+const { Members } = require("../models");
 
 const getMembers = async (req, res) => {
   await Members.findAll()
@@ -21,16 +21,10 @@ const getMember = async (req, res) => {
     });
 };
 
-const createMember = async(req,res) => {
+const createMember = async (req, res) => {
   try {
-    const { 
-      name,
-      facebookUrl,
-      instagramUrl,
-      linkedinUrl,
-      image,
-      description
-    } = req.body;
+    const { name, facebookUrl, instagramUrl, linkedinUrl, image, description } =
+      req.body;
 
     const newmember = await Members.create({
       name,
@@ -38,44 +32,41 @@ const createMember = async(req,res) => {
       instagramUrl,
       linkedinUrl,
       image,
-      description
+      description,
     });
     newmember.save();
     return res.status(200).json(newmember);
   } catch (err) {
     return res.status(500).json(err);
   }
-}
+};
 
-const updateMember = async(req,res) =>{
+const updateMember = async (req, res) => {
   try {
     const { id } = req.params;
-    const { 
-      name,
-      facebookUrl,
-      instagramUrl,
-      linkedinUrl,
-      image,
-      description
-    } = req.body;
+    const { name, facebookUrl, instagramUrl, linkedinUrl, image, description } =
+      req.body;
 
     const updatedmember = await Members.findByPk(id);
     if (!updatedmember) {
       return res.sendStatus(404);
     }
 
-    await Members.update({ name, facebookUrl, instagramUrl, linkedinUrl, image, description }, {
-      where: {
-        id,
-      },
-    });
+    await Members.update(
+      { name, facebookUrl, instagramUrl, linkedinUrl, image, description },
+      {
+        where: {
+          id,
+        },
+      }
+    );
     return res.status(200).json(updatedmember);
   } catch (err) {
     return res.status(500).json(err);
   }
-}
+};
 
-const deleteMember = async(req,res) =>{
+const deleteMember = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -93,12 +84,12 @@ const deleteMember = async(req,res) =>{
   } catch (err) {
     return res.status(500).json(err);
   }
-}
+};
 
 module.exports = {
   getMembers,
   getMember,
   createMember,
   updateMember,
-  deleteMember
+  deleteMember,
 };
