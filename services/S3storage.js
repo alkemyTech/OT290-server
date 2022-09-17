@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const fs = require('fs');
 require('dotenv').config();
 
 AWS.config.update({
@@ -14,12 +15,13 @@ const s3 = new S3({
   apiVersion: '2006-03-01'
 });
 
-const uploadFileS3 = (params) => {
+const uploadFileS3 = (fileName) => {
     // Setting up S3 upload parameters
+    const fileContent = fs.readFileSync(fileName);
     const uploadParams = {
         Bucket: Bucket,
-        Key: params.key,
-        Body: params.buffer,
+        Key: fileName,
+        Body: fileContent,
     };
 
     // Uploading files to the bucket
@@ -27,7 +29,7 @@ const uploadFileS3 = (params) => {
         if (err) {
             throw err;
         }
-        console.log(`File uploaded successfully. ${data.Location}`);
+        return data.Location;
     });
 };
 
