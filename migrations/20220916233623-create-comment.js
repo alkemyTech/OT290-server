@@ -19,7 +19,6 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       post_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "News",
