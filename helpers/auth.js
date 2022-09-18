@@ -10,10 +10,12 @@ const signToken = (user) => jwt.sign({
 
 // This should be used when a token needs to be verified on a http request.
 const verifyToken = (req, res, next) => {
-  const tokenHeader = req.headers['x-auth-token'];
+  const tokenHeader = req.headers['authorization'];
   try {
     if (tokenHeader) {
-      jwt.verify(tokenHeader, JWT_SECRET);
+      const token = tokenHeader.substring("Bearer ".length);
+      // parse Bearer Token
+      jwt.verify(token, JWT_SECRET);
       // successfully authenticated
       next();
     } else {
@@ -26,5 +28,7 @@ const verifyToken = (req, res, next) => {
     res.sendStatus(401);
   }
 };
+
+
 
 module.exports = { signToken, verifyToken };
