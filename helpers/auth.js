@@ -10,7 +10,7 @@ const signToken = (user) => jwt.sign({
 
 // This should be used when a token needs to be verified on a http request.
 const verifyToken = (req, res, next) => {
-  const tokenHeader = req.headers['authorization'];
+  const tokenHeader = req.headers['Authorization'];
   try {
     if (tokenHeader) {
       const token = tokenHeader.substring("Bearer ".length);
