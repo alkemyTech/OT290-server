@@ -1,4 +1,4 @@
-const { Testimonials } = require('../models/testimonials');
+const { Testimonials } = require('../models');
 
 const getTestimonials = async (req, res) => {
   await Testimonials.findAll()
@@ -6,7 +6,7 @@ const getTestimonials = async (req, res) => {
       return res.status(200).json(items);
     })
     .catch((err) => {
-      return res.status(500).send({'message':'Error Inesperado...'});
+      return res.status(500).json(err);
     });
 };
 
@@ -15,8 +15,7 @@ const getTestimonial = async(req,res) => {
   await Testimonials.findByPk(id)((item) => {
 		return res.status(200).send(item);
 	}).catch((err) => {
-    console.log(err);
-    return res.status(500).send({'message':'Error Inesperado...'});
+    return res.status(500).json(err);
 	});
 }
 
@@ -48,9 +47,9 @@ const updateTestimonial = async (req,res) => {
         id,
       }
     });
-    return res.status(204).send({'message':'Editado exitosamente'});
-  } catch (error) {
-    return res.status(500).send({'message':'Error Inesperado...'});
+    return res.status(204).json(testimonialFound);
+  } catch (err) {
+    return res.status(500).json(err);
   }
 }
 
@@ -59,16 +58,16 @@ const deleteTestimonial = async (req, res) => {
     const { id } = req.params;
     const testimonialFound = await Testimonials.findByPk(id);
     if (!testimonialFound) {
-      return res.stats(404).send({'message':'Testimonio Inexistente'});
+      return res.status(404).send({'message':'Testimonio Inexistente'});
     }
     await Testimonials.destroy({
       where: {
         id,
       }
     });
-    return res.status(204).send({'message':'Testimonio Borrado Exitosamente'});
-  } catch (error) {
-    return res.status(500).send({'message':'Error Inesperado'});
+    return res.status(204).json(testimonialFound);
+  } catch (err) {
+    return res.status(500).json(err);
   }
 };
 
