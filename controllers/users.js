@@ -1,4 +1,8 @@
-const { User } = require('../models');
+const { User } = require("../models");
+// Nano: Import bcrypt library to encrypt passwords
+const bcrypt = require("bcrypt");
+// Nano: Import express validator to check types of input variables
+const { validationResult } = require("express-validator");
 
 const getUsers = async (req, res) => {
   try {
@@ -8,6 +12,7 @@ const getUsers = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+
 const getUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -20,16 +25,33 @@ const getUser = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+
 const createUser = async (req, res) => {
   try {
+    //Nano: Validate errors in request to stop if there's any
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    //Nano: Continue if no errors were found
     const { firstName, lastName, email, password, photo, roleId } = req.body;
-    const user = await User.create({ firstName, lastName, email, password, photo, roleId });
+    // Nano: Create salt and make hash to encrypt passwords
+    const salt = await bcrypt.genSalt();
+    const encryptedPassword = await bcrypt.hash(password, salt);
+    // Nano: Continue with user registry
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      password: encryptedPassword,
+      photo,
+      roleId
+    });
     user.save();
     return res.status(201).json(user);
   } catch (error) {
     return res.status(500).json(error);
   }
 };
+
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -40,17 +62,21 @@ const updateUser = async (req, res) => {
       return res.sendStatus(404);
     }
 
-    const update = await User.update({ firstName, lastName, email, password, photo, roleId }, {
-      where: {
-        id,
-      },
-    });
+    const update = await User.update(
+      { firstName, lastName, email, password, photo, roleId },
+      {
+        where: {
+          id,
+        },
+      }
+    );
     const userUpdated = await User.findByPk(id);
     return res.status(200).json(userUpdated);
   } catch (error) {
     return res.status(500).json(error);
   }
 };
+
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -63,12 +89,9 @@ const deleteUser = async (req, res) => {
         id,
       },
     });
-    const userDeleted = await User.findByPk(
-      id,
-      {
-        paranoid: false,
-      },
-    );
+    const userDeleted = await User.findByPk(id, {
+      paranoid: false,
+    });
     return res.status(200).json(userDeleted);
   } catch (error) {
     return res.status(500).json(error);
@@ -76,5 +99,9 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  getUsers, getUser, createUser, updateUser, deleteUser,
+  getUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
 };
