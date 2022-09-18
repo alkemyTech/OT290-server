@@ -15,7 +15,8 @@ const membersRouter = require("./routes/members");
 const categoriesRouter = require("./routes/categories");
 const organizationRouter = require("./routes/organization");
 const newsRouter = require("./routes/news");
-
+const loginRouter = require('./routes/login');
+const { swaggerJsDoc, swaggerUi, swaggerSpec} = require("./services/swagger");
 const app = express();
 app.use(cors());
 
@@ -28,7 +29,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use('/auth/login', loginRouter);
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerSpec)));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/roles", rolesRouter);
