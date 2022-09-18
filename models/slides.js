@@ -11,8 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Slides.belongsTo(models.organization,{
-        as: 'organizationId',
-      });
+        foreignKey: {
+          name: 'organizationId',
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+      },);
     }
   };
   Slides.init({
