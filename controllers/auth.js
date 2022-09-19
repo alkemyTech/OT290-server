@@ -2,6 +2,7 @@ const { User } = require("../models");
 // Nano: Import express validator to check types of input variables
 const { validationResult } = require("express-validator");
 const { createUser } = require("./users");
+const bcrypt = require("bcrypt");
 
 const userRegister = async (req, res) => {
   try {
@@ -22,13 +23,13 @@ const getAuth = async (req, res) => {
 
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-    const user = await User.findAll({ where: { email: email } });
-    const pass = user[0].dataValues.password;
-
-    if (user.length == false) {
+    const user = await User.findOne({ where: { email } });
+    const pass = user.password;
+    
+    if (!user) {
       res.status(401.1).send("usuario no existe");
-    } else if (/*await bcrypt.compare(password, pass ) == true*/ pass == password) {
-      res.status(200).send({ user });
+    } else if ((await bcrypt.compare(password, pass)) == true) {
+      res.status(200).send({ ...user.dataValues, password: undefined });
     } else {
       res.status(401.1).send("ok:false");
     }
