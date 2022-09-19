@@ -1,41 +1,43 @@
 const { User } = require("../models");
-// Nano: Import bcrypt library to encrypt passwords
-const bcrypt = require("bcrypt");
 // Nano: Import express validator to check types of input variables
 const { validationResult } = require("express-validator");
+const { createUser } = require("./users");
 
 const userRegister = async (req, res) => {
   try {
     //Nano: Validate errors in request to stop if there's any
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-    //Nano: Continue if no errors were found
-    const { firstName, lastName, email, password, photo, roleId } = req.body;
-    // Nano: Create salt and make hash to encrypt passwords
-    const salt = await bcrypt.genSalt();
-    const encryptedPassword = await bcrypt.hash(password, salt);
     // Nano: Continue with user registry
-    const user = await User.create({
-      firstName,
-      lastName,
-      email,
-      password: encryptedPassword,
-      photo,
-      roleId,
-    });
-    user.save();
-    return res.status(201).json({
-      firstName,
-      lastName,
-      email,
-      photo,
-      roleId,
-    });
+    return await createUser(req, res);
   } catch (error) {
     return res.status(500).json(error);
   }
 };
 
+const getAuth = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    const user = await User.findAll({ where: { email: email } });
+    const pass = user[0].dataValues.password;
+
+    if (user.length == false) {
+      res.status(401.1).send("usuario no existe");
+    } else if (/*await bcrypt.compare(password, pass ) == true*/ pass == password) {
+      res.status(200).send({ user });
+    } else {
+      res.status(401.1).send("ok:false");
+    }
+  } catch (error) {
+    res.status(401.1).send("ok:false");
+  }
+};
+
 module.exports = {
   userRegister,
+  getAuth,
 };
