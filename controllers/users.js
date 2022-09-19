@@ -1,8 +1,6 @@
 const { User } = require("../models");
 // Nano: Import bcrypt library to encrypt passwords
 const bcrypt = require("bcrypt");
-// Nano: Import express validator to check types of input variables
-const { validationResult } = require("express-validator");
 
 const getUsers = async (req, res) => {
   try {
@@ -28,25 +26,21 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    //Nano: Validate errors in request to stop if there's any
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-    //Nano: Continue if no errors were found
     const { firstName, lastName, email, password, photo, roleId } = req.body;
     // Nano: Create salt and make hash to encrypt passwords
     const salt = await bcrypt.genSalt();
     const encryptedPassword = await bcrypt.hash(password, salt);
-    // Nano: Continue with user registry
+    console.log({ firstName, lastName, email, encryptedPassword, photo, roleId });
     const user = await User.create({
       firstName,
       lastName,
       email,
       password: encryptedPassword,
       photo,
-      roleId
+      roleId,
     });
     user.save();
-    return res.status(201).json(user);
+    return res.status(201).json({ ...user.dataValues, password: undefined });
   } catch (error) {
     return res.status(500).json(error);
   }
