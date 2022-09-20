@@ -25,25 +25,27 @@ const getUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  try {
-    const { firstName, lastName, email, password, photo, roleId } = req.body;
-    // Nano: Create salt and make hash to encrypt passwords
-    const salt = await bcrypt.genSalt();
-    const encryptedPassword = await bcrypt.hash(password, salt);
-    console.log({ firstName, lastName, email, encryptedPassword, photo, roleId });
-    const user = await User.create({
-      firstName,
-      lastName,
-      email,
-      password: encryptedPassword,
-      photo,
-      roleId,
-    });
-    user.save();
-    return res.status(201).json({ ...user.dataValues, password: undefined });
-  } catch (error) {
-    return res.status(500).json(error);
-  }
+  // try {
+  const { firstName, lastName, email, password, photo, roleId } = req.body;
+  // Nano: Create salt and make hash to encrypt passwords
+  const salt = await bcrypt.genSalt();
+  const encryptedPassword = await bcrypt.hash(password, salt);
+  console.log({ firstName, lastName, email, encryptedPassword, photo, roleId });
+  const user = await User.create({
+    firstName,
+    lastName,
+    email,
+    password: encryptedPassword,
+    photo,
+    roleId,
+  });
+  user.save();
+  // return res.status(201).json({ ...user.dataValues, password: undefined });
+  return { ...user.dataValues, password: undefined };
+  // } catch (error) {
+  //   // return res.status(500).json(error);
+  //   return;
+  // }
 };
 
 const updateUser = async (req, res) => {
