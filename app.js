@@ -14,6 +14,7 @@ const testimonialsRouter = require("./routes/testimonials");
 const membersRouter = require("./routes/members");
 const categoriesRouter = require("./routes/categories");
 const organizationRouter = require("./routes/organization");
+const slidesRouter = require("./routes/slides");
 const newsRouter = require("./routes/news");
 const { swaggerJsDoc, swaggerUi, swaggerSpec } = require("./services/swagger");
 const app = express();
@@ -37,6 +38,7 @@ app.use("/testimonials", testimonialsRouter);
 app.use("/categories", categoriesRouter);
 app.use("/members", membersRouter);
 app.use("/organization", organizationRouter);
+app.use("/slides",slidesRouter);
 app.use("/news", newsRouter);
 
 // catch 404 and forward to error handler
