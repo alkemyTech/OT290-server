@@ -43,7 +43,7 @@ const createComment = async (req, res) => {
         const token = tokenHeader.substring("Bearer ".length);
         var decoded = jwt.verify(token, JWT_SECRET);
         let id=decoded.id;
-        const user = await userService.findById(id);
+        const user = await User.findById(id);
         const userId = user.id;
         const comment = await Comment.create({ userId, body, postId });
         comment.save();
