@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const randtoken = require("rand-token");
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, EXP_TIME } = process.env;
 
 const refreshTokens = {};
 // this will be used when a token needs to be verified on a http request inside Controller.
 const signToken = (user) => {
-  const exp = Math.floor(Date.now() / 1000) + 600 * 600;
+  const exp = Math.floor(Date.now() / 1000) + EXP_TIME;
   const refreshToken = randtoken.uid(256);
   const accessToken = jwt.sign(
     {
