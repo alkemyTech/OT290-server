@@ -34,5 +34,5 @@ const uploadFileS3 = (fileName) => {
 };
 
 module.exports = {
-    uploadToBucket
+  uploadFileS3
   };
