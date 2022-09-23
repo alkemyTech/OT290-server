@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      user_id: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
           model: "Users",
@@ -18,7 +18,7 @@ module.exports = {
       body: {
         type: Sequelize.TEXT,
       },
-      post_id: {
+      postId: {
         type: Sequelize.INTEGER,
         references: {
           model: "News",
