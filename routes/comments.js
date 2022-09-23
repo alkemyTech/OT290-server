@@ -1,12 +1,11 @@
 const express = require("express");
-const { isAdmin, isAuthenticated, isOwnerOrAdmin } = require("../middlewares/auth");
+const { isAdmin, isAuthenticated, getUserId } = require("../middlewares");
 
 const router = express.Router();
 
 const {
   getComments,
   getComment,
-  getCommentsByUser,
   createComment,
   updateComment,
   deleteComment,
@@ -14,9 +13,8 @@ const {
 
 router.get("/", isAuthenticated, isAdmin, getComments);
 router.get("/:id", isAuthenticated, getComment);
-router.get("/:userId", isAuthenticated, isOwnerOrAdmin, getCommentsByUser);
 router.post("/", isAuthenticated, createComment);
-router.put("/:id", isAuthenticated, updateComment);
+router.put("/:id", isAuthenticated, getUserId, updateComment);
 router.delete("/:id", isAuthenticated, deleteComment);
 
 module.exports = router;

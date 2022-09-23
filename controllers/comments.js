@@ -24,18 +24,6 @@ const getComment = async (req, res) => {
   }
 };
 
-const getCommentsbyUser = async (req, res) => {
-    try {
-      const { userId } = req.params;
-      const comments = await Comment.findAll({
-        where: { userId }
-      });
-      return res.status(200).json(comments);
-    } catch (error) {
-      return res.status(500).json(error);
-    }
-  };
-
 const createComment = async (req, res) => {
     try {
         const { body, postId } = req.body;
