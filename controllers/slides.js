@@ -1,7 +1,7 @@
 const { Slides } = require('../models');
 const { Buffer } = require ('node:buffer');
 
-const storage = require('../services/S3storage');
+const { uploadFileS3 } = require('../services/S3storage');
 
 const getSlides = async(req,res) =>{
   await Slides.findAll()
@@ -28,19 +28,29 @@ const getSlide = async (req, res) => {
 
 const createSlide = async (req, res) => {
   try {
-    const { image, text, order, organization_id } = req.body;
+    const { image, text, organization_id } = req.body;
+    let { order } = req.body;
     // BITMAP THE IMAGEN
     let bitmap = Buffer.from(image).toString('base64');
-    let imageUrl = await storage.uploadFileS3(bitmap);
+    let imageUrl = await uploadFileS3(bitmap);
+    if (!order){
+      order = await Slides.count({
+        where: {
+          organizationId: organization_id
+        }
+      });
+      order++;
+    };
     const newSlide = await Slides.create({
       imageUrl,
       text,
       order,
-      organization_id
+      organizationId:organization_id
     });
     newSlide.save();
     return res.status(201).json(newSlide);
   } catch (err) {
+    console.log(err);
     return res.status(500).json(err);
   }
 };
@@ -55,7 +65,7 @@ const updateSlide = async (req,res) => {
     }
     await Slides.update({ imageUrl, text, order, organization_id }, {
       where: {
-        id,
+        id:id,
       }
     });
     return res.status(204).json(slideFound);
@@ -73,7 +83,7 @@ const deleteSlide = async (req, res) => {
     }
     await Slides.destroy({
       where: {
-        id,
+        id:id,
       }
     });
     return res.status(204).json(slideFound);
