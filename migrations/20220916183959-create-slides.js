@@ -20,6 +20,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      organizationId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'organizations',
+          },
+          key: 'id',
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
