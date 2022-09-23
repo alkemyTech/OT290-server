@@ -46,7 +46,24 @@ const getAuth = async (req, res) => {
   }
 };
 
+const userData = async (req, res) => {
+  try {
+    const tokenHeader = req.headers["Authorization"];
+    const token = tokenHeader.substring("Bearer ".length);
+    var decoded = jwt.verify(token, JWT_SECRET);
+    let id=decoded.id;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.sendStatus(404);
+    }
+    return res.status(200).json(user);    
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   userRegister,
   getAuth,
+  userData,
 };
