@@ -30,7 +30,6 @@ const createUser = async (req, res) => {
   // Nano: Create salt and make hash to encrypt passwords
   const salt = await bcrypt.genSalt();
   const encryptedPassword = await bcrypt.hash(password, salt);
-  console.log({ firstName, lastName, email, encryptedPassword, photo, roleId });
   const user = await User.create({
     firstName,
     lastName,
@@ -39,13 +38,8 @@ const createUser = async (req, res) => {
     photo,
     roleId,
   });
-  user.save();
-  // return res.status(201).json({ ...user.dataValues, password: undefined });
+
   return { ...user.dataValues, password: undefined };
-  // } catch (error) {
-  //   // return res.status(500).json(error);
-  //   return;
-  // }
 };
 
 const updateUser = async (req, res) => {

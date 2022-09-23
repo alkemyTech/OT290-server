@@ -5,11 +5,13 @@ const { JWT_SECRET, EXP_TIME } = process.env;
 const refreshTokens = {};
 // this will be used when a token needs to be verified on a http request inside Controller.
 const signToken = (user) => {
-  const exp = Math.floor(Date.now() / 1000) + Number(EXP_TIME);
+  const expiresIn = Math.floor(Date.now() / 1000) + Number(EXP_TIME);
   const refreshToken = randtoken.uid(256);
-  const accessToken = jwt.sign({ user }, JWT_SECRET, { expiresIn: Number(EXP_TIME) });
+  const accessToken = jwt.sign({ user }, JWT_SECRET, {
+    expiresIn: Number(EXP_TIME),
+  });
   refreshTokens[refreshToken] = user.email;
-  return { exp, user, accessToken, refreshToken };
+  return { expiresIn, accessToken, refreshToken };
 };
 
 // This should be used when a token needs to be verified on a http request.
