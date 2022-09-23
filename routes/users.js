@@ -1,5 +1,5 @@
 const express = require("express");
-const { isAdmin, isAuthenticated, isOwnerOrAdmin } = require("../middlewares/auth");
+const { isAdmin, isAuthenticated, getUserId } = require("../middlewares");
 
 const router = express.Router();
 
