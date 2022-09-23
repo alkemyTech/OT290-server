@@ -7,15 +7,9 @@ const refreshTokens = {};
 const signToken = (user) => {
   const exp = Math.floor(Date.now() / 1000) + EXP_TIME;
   const refreshToken = randtoken.uid(256);
-  const accessToken = jwt.sign(
-    {
-      exp,
-      data: user,
-    },
-    JWT_SECRET
-  );
+  const accessToken = jwt.sign({ user }, JWT_SECRET, { expiresIn: EXP_TIME });
   refreshTokens[refreshToken] = user.email;
-  return { exp, data: user, accessToken, refreshToken };
+  return { exp, user, accessToken, refreshToken };
 };
 
 // This should be used when a token needs to be verified on a http request.
