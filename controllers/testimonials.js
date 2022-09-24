@@ -19,18 +19,29 @@ const getTestimonial = async(req,res) => {
 	});
 }
 
+/**
+ * 
+ * @param body.name Nombre del testimonio, NO debe ser vacio.
+ * @param body.content Contentido de testimonios, NO debe ser vacio
+ * @param body.image Imagen de testimonio, puede ser vacio. 
+ * @returns testimonials nuevo item creado
+ */
 const createTestimonial = async (req, res) => {
   try {
-    const { name, image, content } = req.body;
-    const testimonials = await Testimonials.create({
-      name,
-      image,
-      content
-    });
-    testimonials.save();
-    return res.status(201).json(testimonials);
+    let { name, image, content } = req.body;
+    if (name && content){
+      const testimonials = await Testimonials.create({
+        name,
+        image,
+        content
+      });
+      testimonials.save();
+      return res.status(201).json(testimonials);
+    } else {
+      return res.sendStatus(400);
+    }
   } catch (err) {
-    return res.status(500);
+    return res.status(500).json(err);
   }
 };
 

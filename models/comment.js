@@ -10,16 +10,55 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Comment.belongsTo(models.User, {
+        as: "user",
+        foreingKey: "userId",
+      });
+    }
+    static associate(models) {
+      Comment.belongsTo(models.News, {
+        as: "news",
+        foreingKey: "postId",
+      });
     }
   };
   Comment.init({
-    user_id: DataTypes.INTEGER,
-    body: DataTypes.TEXT,
-    post_id: DataTypes.INTEGER
-  }, {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
+    },
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    postId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "News",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
+    },
+    deletedAt: DataTypes.DATE,
+  },
+  {
     sequelize,
-    modelName: 'Comment',
-  });
+    timestamps: true,
+    paranoid: true,
+    modelName: "Comment",
+  }
+  );
   return Comment;
 };
