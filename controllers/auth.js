@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const { signToken } = require("../helpers/auth");
 
 const userRegister = async (req, res) => {
+  console.log(req.body.lastName);
   try {
     //Nano: Validate errors in request to stop if there's any
     const errors = validationResult(req);
@@ -22,7 +23,7 @@ const userRegister = async (req, res) => {
   }
 };
 
-const getAuth = async (req, res) => {
+const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const errors = validationResult(req);
@@ -46,5 +47,5 @@ const getAuth = async (req, res) => {
 
 module.exports = {
   userRegister,
-  getAuth,
+  userLogin,
 };
