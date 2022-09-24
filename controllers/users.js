@@ -30,6 +30,10 @@ const createUser = async (req, res) => {
   // Nano: Create salt and make hash to encrypt passwords
   const salt = await bcrypt.genSalt();
   const encryptedPassword = await bcrypt.hash(password, salt);
+<<<<<<< HEAD
+  console.log({ firstName, lastName, email, encryptedPassword, photo, roleId });
+=======
+>>>>>>> aea812a06c1b0d888643c6c7d30673c8d16cc5e4
   const user = await User.create({
     firstName,
     lastName,
@@ -38,8 +42,18 @@ const createUser = async (req, res) => {
     photo,
     roleId,
   });
+<<<<<<< HEAD
+  user.save();
+  // return res.status(201).json({ ...user.dataValues, password: undefined });
+  return { ...user.dataValues, password: undefined };
+  // } catch (error) {
+  //   // return res.status(500).json(error);
+  //   return;
+  // }
+=======
 
   return { ...user.dataValues, password: undefined };
+>>>>>>> aea812a06c1b0d888643c6c7d30673c8d16cc5e4
 };
 
 const updateUser = async (req, res) => {
@@ -50,6 +64,19 @@ const updateUser = async (req, res) => {
     if (!user) {
       return res.sendStatus(404);
     }
+<<<<<<< HEAD
+
+    const update = await User.update(
+      { firstName, lastName, email, password, photo, roleId },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+    const userUpdated = await User.findByPk(id);
+    return res.status(200).json(userUpdated);
+=======
     if (id == userId) {
       const update = await User.update(
         { firstName, lastName, email, password, photo, roleId },
@@ -64,6 +91,7 @@ const updateUser = async (req, res) => {
     } else {
       return res.status(401).json(error);
     }
+>>>>>>> aea812a06c1b0d888643c6c7d30673c8d16cc5e4
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -76,6 +104,17 @@ const deleteUser = async (req, res) => {
     if (!user) {
       return res.sendStatus(404);
     }
+<<<<<<< HEAD
+    await User.destroy({
+      where: {
+        id,
+      },
+    });
+    const userDeleted = await User.findByPk(id, {
+      paranoid: false,
+    });
+    return res.status(200).json(userDeleted);
+=======
     if (id == userId) {
       await User.destroy({
         where: {
@@ -89,6 +128,7 @@ const deleteUser = async (req, res) => {
     } else {
       return res.status(401).json(error);
     }
+>>>>>>> aea812a06c1b0d888643c6c7d30673c8d16cc5e4
   } catch (error) {
     return res.status(500).json(error);
   }    
