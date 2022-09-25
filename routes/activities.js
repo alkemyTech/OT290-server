@@ -19,12 +19,6 @@ router.post(
   isAdmin,
   createActivity
 );
-
 router.put("/:id", isAuthenticated, isAdmin, updateActivity);
-
-// router.get("/:id", isAuthenticated, getComment);
-// router.post("/", isAuthenticated, createComment);
-// router.put("/:id", isAuthenticated, getUserId, updateComment);
-// router.delete("/:id", isAuthenticated, deleteComment);
 
 module.exports = router;
