@@ -11,11 +11,11 @@ const {
   createComment,
   updateComment,
   deleteComment,
-} = require("../controllers/users");
+} = require("../controllers/comments");
 
 router.get("/", isAuthenticated, isAdmin, getComments);
 router.get("/:id", isAuthenticated, getComment);
-router.post("/", isAuthenticated, createComment);
+router.post("/", isAuthenticated, getUserId, createComment);
 router.put("/:id", isAuthenticated, getUserId, updateComment);
 router.delete("/:id", isAuthenticated, deleteComment);
 
