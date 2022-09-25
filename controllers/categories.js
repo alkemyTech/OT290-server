@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator');
 const { Category } = require('../models');
 
 const getCategories = async (req, res) => {
@@ -22,10 +23,14 @@ const getCategory = async (req, res) => {
 };
 const createCategory = async (req, res) => {
   try {
+  
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
     const { name, description, image } = req.body;
     const category = await Category.create({ name, description, image });
     category.save();
     return res.status(201).json(category);
+    
   } catch (error) {
     return res.status(500).json(error);
   }
