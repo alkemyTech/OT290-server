@@ -20,4 +20,21 @@ const createActivity = async (req, res) => {
   }
 };
 
-module.exports = { createActivity };
+const updateActivity = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+
+    const activity = await Activity.findByPk(id);
+    if (!activity) {
+      return res.sendStatus(404);
+    }
+    await Activity.update(body, { where: { id } });
+    const updatedActivity = await Activity.findByPk(id);
+    return res.status(200).json(updatedActivity);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+module.exports = { createActivity, updateActivity };

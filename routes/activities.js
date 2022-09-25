@@ -2,8 +2,7 @@ const express = require("express");
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { isAdmin } = require("../middlewares/isAdmin");
 const { getUserId } = require("../middlewares/getUserId");
-const { createActivity } = require("../controllers/activities");
-// Nano: Import express validator to check types of input variables
+const { createActivity, updateActivity } = require("../controllers/activities");
 const { body } = require("express-validator");
 
 const router = express.Router();
@@ -17,6 +16,8 @@ router.post(
   isAdmin,
   createActivity
 );
+
+router.put("/:id", isAuthenticated, isAdmin, updateActivity);
 
 // router.get("/:id", isAuthenticated, getComment);
 // router.post("/", isAuthenticated, createComment);
