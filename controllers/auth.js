@@ -12,7 +12,7 @@ const userRegister = async (req, res) => {
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
     // Nano: Continue with user registry
     const user = await createUser(req, res);
-    
+
     if (user) {
       delete user.password;
       const token = signToken(user);
@@ -37,7 +37,9 @@ const getAuth = async (req, res) => {
       res.status(401.1).send("usuario no existe");
     } else if ((await bcrypt.compare(password, pass)) == true) {
       const token = signToken(user);
-      res.status(200).send({ ...user.dataValues, password: undefined, token });
+      response = { ...user.dataValues, password: undefined, token };
+      if (response.token.data) delete response.token.data;
+      res.status(200).send(response);
     } else {
       res.status(401.1).send("ok:false");
     }
@@ -48,5 +50,5 @@ const getAuth = async (req, res) => {
 
 module.exports = {
   userRegister,
-  userLogin,
+  getAuth,
 };

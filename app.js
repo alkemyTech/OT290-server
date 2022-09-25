@@ -17,7 +17,6 @@ const organizationRouter = require("./routes/organization");
 const newsRouter = require("./routes/news");
 const contactRouter = require("./routes/contact");
 const slidesRouter = require("./routes/slides");
-const newsRouter = require("./routes/news");
 const commentsRouter = require("./routes/comments");
 const { swaggerJsDoc, swaggerUi, swaggerSpec } = require("./services/swagger");
 const app = express();
@@ -43,7 +42,7 @@ app.use("/members", membersRouter);
 app.use("/organization", organizationRouter);
 app.use("/news", newsRouter);
 app.use("/contacts", contactRouter);
-app.use("/slides",slidesRouter);
+app.use("/slides", slidesRouter);
 app.use("/news", newsRouter);
 app.use("/comments", commentsRouter);
 

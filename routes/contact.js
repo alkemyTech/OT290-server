@@ -5,7 +5,7 @@ let {isAuthenticated}= require('../helpers/auth')
 
 
 
-router.get('/',isAuthenticated, controllers.getContacts);
+// router.get('/',isAuthenticated, controllers.getContacts);
 
 
 module.exports = router;
