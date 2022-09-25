@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const { body } = require("express-validator");
+const { isAdmin }= require("../middlewares/isAdmin")
+
 const {
   getMembers,
   getMember,
@@ -9,7 +11,7 @@ const {
   deleteMember
 } = require('../controllers/members');
 
-router.get('/', getMembers);
+router.get('/',isAdmin, getMembers);
 router.get('/:id', getMember);
 router.post('/', 
   body("name").notEmpty().isString()
