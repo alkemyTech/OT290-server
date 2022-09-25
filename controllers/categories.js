@@ -39,6 +39,7 @@ const createCategory = async (req, res) => {
   }
 };
 const updateCategory = async (req, res) => {
+  const errors = validationResult(req);
   try {
     const { id } = req.params;
     const { name, description, image } = req.body;

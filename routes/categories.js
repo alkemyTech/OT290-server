@@ -12,7 +12,10 @@ router.post('/',
   body("name").exists(),
   body("name").notEmpty(),
   body("name").isString(), createCategory);
-router.put('/:id', updateCategory);
+router.put('/:id',
+body("name").exists(),
+body("name").notEmpty(),
+body("name").isString(), updateCategory);
 router.delete('/:id', deleteCategory);
 
 module.exports = router;
