@@ -1,13 +1,16 @@
 const express = require("express");
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { isAdmin } = require("../middlewares/isAdmin");
-const { getUserId } = require("../middlewares/getUserId");
-const { createActivity, updateActivity } = require("../controllers/activities");
+const {
+  createActivity,
+  updateActivity,
+  getActivities,
+} = require("../controllers/activities");
 const { body } = require("express-validator");
 
 const router = express.Router();
 
-// router.get("/", getActivities);
+router.get("/", getActivities);
 router.post(
   "/",
   body("name").notEmpty(),

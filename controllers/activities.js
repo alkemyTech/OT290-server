@@ -1,6 +1,15 @@
 const { Activity } = require("../models");
 const { validationResult } = require("express-validator");
 
+const getActivities = async (req, res) => {
+  try {
+    const activities = await Activity.findAll();
+    return res.status(200).json(activities);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 const createActivity = async (req, res) => {
   try {
     //Nano: Validate errors in request to stop if there's any
@@ -24,7 +33,6 @@ const updateActivity = async (req, res) => {
   try {
     const { id } = req.params;
     const body = req.body;
-
     const activity = await Activity.findByPk(id);
     if (!activity) {
       return res.sendStatus(404);
@@ -37,4 +45,4 @@ const updateActivity = async (req, res) => {
   }
 };
 
-module.exports = { createActivity, updateActivity };
+module.exports = { createActivity, updateActivity, getActivities };
