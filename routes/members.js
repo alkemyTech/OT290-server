@@ -17,6 +17,6 @@ router.post('/',
   body("name").notEmpty().isString()
   ,createMember);
 router.put('/:id', updateMember);
-router.delete('/:id', deleteMember);
+router.delete('/:id',isAdmin, deleteMember);
 
 module.exports = router;
