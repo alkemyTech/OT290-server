@@ -1,4 +1,5 @@
 const { Members } = require("../models");
+const { validationResult } = require('express-validator');
 
 const getMembers = async (req, res) => {
   await Members.findAll()
@@ -23,6 +24,12 @@ const getMember = async (req, res) => {
 
 const createMember = async (req, res) => {
   try {
+    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { name, facebookUrl, instagramUrl, linkedinUrl, image, description } =
       req.body;
 
