@@ -4,6 +4,8 @@ const { validationResult } = require("express-validator");
 const { createUser } = require("./users");
 const bcrypt = require("bcrypt");
 const { signToken } = require("../helpers/auth");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = process.env;
 
 const userRegister = async (req, res) => {
   try {
@@ -50,16 +52,17 @@ const userLogin = async (req, res) => {
 
 const userData = async (req, res) => {
   try {
-    const tokenHeader = req.headers["Authorization"];
+    const tokenHeader = req.headers["authorization"];
     const token = tokenHeader.substring("Bearer ".length);
     var decoded = jwt.verify(token, JWT_SECRET);
-    let id = decoded.id;
-    const user = await User.findById(id);
+    let id = decoded.data.id;
+    const user = await User.findByPk(id);
     if (!user) {
       return res.sendStatus(404);
     }
     return res.status(200).json(user);
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 };
