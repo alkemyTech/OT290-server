@@ -16,6 +16,18 @@ const decodeImage = (data) => {
   };
 };
 
+/**
+ *
+ * @param {*} entity nombre de la entidad
+ * @param {*} extension extension que tendra el archivo
+ * @returns string nombre del archivo con la forma [entity]-[timestamp].[extension]
+ */
+
+// generateImageName('user', 'png') -> user-12371232323132.png
+// generateImageName('slide', 'jpg') -> slide-978612397612947.jpg
+
+const generateImageName = (entity, extension) => {};
+
 module.exports = {
   decodeImage,
 };
