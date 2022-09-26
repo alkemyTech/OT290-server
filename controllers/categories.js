@@ -39,6 +39,8 @@ const createCategory = async (req, res) => {
   }
 };
 const updateCategory = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
   try {
     const { id } = req.params;
     const { name, description, image } = req.body;
