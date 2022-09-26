@@ -31,9 +31,11 @@ const createSlide = async (req, res) => {
     let { order } = req.body;
     let imageInfo = decodeImage(image);
 
+    let imageTimestamp = Date.now();
+
     let imageUrl = await uploadFileS3(
       imageInfo.datos,
-      `imagen.${imageInfo.extension}`
+      `imagen-${imageTimestamp}.${imageInfo.extension}`
     );
     if (!order) {
       order = await Slides.count({
