@@ -7,4 +7,5 @@ const { isAdmin }= require("../middlewares/isAdmin")
 router.get('/',isAuthenticated, isAdmin, controllers.getContacts);
 
 
+
 module.exports = router;

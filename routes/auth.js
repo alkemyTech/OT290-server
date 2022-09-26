@@ -6,7 +6,8 @@ const router = express.Router();
 // Nano: Import express validator to check types of input variables
 const { body } = require("express-validator");
 
-const { userRegister, userLogin } = require("../controllers/auth");
+
+const { userRegister, userLogin, userData } = require("../controllers/auth");
 
 router.post(
   "/register",
@@ -23,5 +24,7 @@ router.post(
   body("password").isLength({ min: 5 }), // password must be at least 5 chars long
   userLogin
 );
+
+router.get("/me", isAuthenticated, userData);
 
 module.exports = router;
