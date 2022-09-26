@@ -1,12 +1,12 @@
 const express = require("express");
-const { isAuthenticated } = require("../middlewares");
+const { isAuthenticated } = require("../middlewares/isAuthenticated");
 
 const router = express.Router();
 
 // Nano: Import express validator to check types of input variables
 const { body } = require("express-validator");
 
-const { userRegister, getAuth, userData } = require("../controllers/auth");
+const { userRegister, userLogin, userData } = require("../controllers/auth");
 
 router.post(
   "/register",
@@ -21,7 +21,7 @@ router.post(
   "/login",
   body("email").isEmail(), // username must be an email
   body("password").isLength({ min: 5 }), // password must be at least 5 chars long
-  getAuth
+  userLogin
 );
 
 router.get("/me", isAuthenticated, userData);

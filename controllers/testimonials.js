@@ -41,7 +41,7 @@ const createTestimonial = async (req, res) => {
       return res.sendStatus(400);
     }
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500);
   }
 };
 
