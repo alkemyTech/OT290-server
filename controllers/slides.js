@@ -1,6 +1,6 @@
 const { Slides } = require("../models");
 const { Buffer } = require("node:buffer");
-const base64 = require("base-64");
+//const base64 = require("base-64");
 
 const { uploadFileS3 } = require("../services/S3storage");
 
@@ -31,7 +31,7 @@ const createSlide = async (req, res) => {
     const { image, text, organization_id } = req.body;
     let { order } = req.body;
     // BITMAP THE IMAGEN
-    let bitmap = Buffer.from(base64.decode(image)); // .toString('base64');
+    //let bitmap = Buffer.from(base64.decode(image)); // .toString('base64');
     let imageUrl = await uploadFileS3(bitmap, "imagen.png");
     if (!order) {
       order = await Slides.count({

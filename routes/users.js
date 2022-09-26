@@ -2,7 +2,6 @@ const express = require("express");
 const { isAdmin } = require("../middlewares/isAdmin");
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { getUserId } = require("../middlewares/getUserId");
-
 const router = express.Router();
 
 const {
