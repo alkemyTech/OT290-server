@@ -16,7 +16,7 @@ const {
 router.get("/", isAuthenticated, isAdmin, getComments);
 router.get("/:id", isAuthenticated, getComment);
 router.post("/", isAuthenticated, getUserId, createComment);
-router.put("/:id", isAuthenticated, getUserId, updateComment);
+router.put("/:id", isAuthenticated,isAdmin, getUserId, updateComment);
 router.delete("/:id", isAuthenticated, deleteComment);
 
 module.exports = router;
