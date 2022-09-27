@@ -49,13 +49,12 @@ const updateComment = async (req, res) => {
   try {
     const { id, userId } = req.params;
     const { body } = req.body;
-    const user = await User.findByPk(id);
+    const comment = await Comment.findByPk(id);
+    if (!comment) return res.sendStatus(404);
+    const owner = await User.findByPk(comment.userId);
+    const user = await User.findByPk(userId);
     const role = user.roleId;
-    if (id == userId || role == 1) {
-      const comment = await Comment.findByPk(id);
-      if (!comment) {
-        return res.sendStatus(404);
-      }
+    if (owner.id == userId || role == 1) {
       const update = await Comment.update({ body }, { where: { id } });
       const commentUpdated = await Comment.findByPk(id);
       return res.status(200).json(commentUpdated);
