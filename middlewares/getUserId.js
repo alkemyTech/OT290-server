@@ -6,7 +6,7 @@ const getUserId = async (req, res, next) => {
     const tokenHeader = req.headers["authorization"];
     const token = tokenHeader.substring("Bearer ".length);
     var decoded = jwt.verify(token, JWT_SECRET);
-    req.params.userId = decoded.id;
+    req.params.userId = decoded.data.id;
     next();
   } catch (error) {
     return res.status(500).json(error);

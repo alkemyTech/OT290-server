@@ -17,6 +17,6 @@ router.get("/", isAuthenticated, isAdmin, getComments);
 router.get("/:id", isAuthenticated, getComment);
 router.post("/", isAuthenticated, getUserId, createComment);
 router.put("/:id", isAuthenticated, getUserId, updateComment);
-router.delete("/:id", isAuthenticated, deleteComment);
+router.delete("/:id", isAuthenticated, getUserId, deleteComment);
 
 module.exports = router;
