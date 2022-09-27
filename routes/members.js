@@ -14,8 +14,9 @@ const {
 router.get('/',isAdmin, getMembers);
 router.get('/:id', getMember);
 router.post('/', 
-  body("name").notEmpty().isString()
-  ,createMember);
+                body("name").notEmpty().isString()
+                ,isAdmin
+                ,createMember);
 router.put('/:id', updateMember);
 router.delete('/:id',isAdmin, deleteMember);
 

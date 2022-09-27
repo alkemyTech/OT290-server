@@ -1,6 +1,7 @@
 const { Comment , User } = require("../models");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
+const { validationResult } = require("express-validator");
 
 const getComments = async (req, res) => {
   try {
@@ -26,6 +27,10 @@ const getComment = async (req, res) => {
 
 const createComment = async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty())
+        return res.status(400).json({ errors: errors.array() });
+
         const { body, postId , userId} = req.body;
         const comment = await Comment.create({ userId, body, postId });
         comment.save();
