@@ -1,5 +1,7 @@
 const express = require("express");
-
+const { isAdmin } = require("../middlewares/isAdmin");
+const { isAuthenticated } = require("../middlewares/isAuthenticated");
+const { getUserId } = require("../middlewares/getUserId");
 const router = express.Router();
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { isAdmin } = require("../middlewares/isAdmin");
@@ -15,7 +17,7 @@ const {
 router.get("/", isAuthenticated, isAdmin, getUsers);
 router.get("/:id", isAuthenticated, getUser);
 router.post("/", isAuthenticated, createUser);
-// router.put("/:id", isAuthenticated, isOwnerOrAdmin, updateUser);
-// router.delete("/:id", isAuthenticated, isOwnerOrAdmin, deleteUser);
+router.put("/:id", isAuthenticated, getUserId, updateUser);
+router.delete("/:id", isAuthenticated, getUserId, deleteUser);
 
 module.exports = router;

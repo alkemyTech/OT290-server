@@ -38,7 +38,7 @@ const createUser = async (req, res) => {
     photo,
     roleId,
   });
-
+  
   return { ...user.dataValues, password: undefined };
 };
 

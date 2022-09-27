@@ -26,13 +26,7 @@ const getComment = async (req, res) => {
 
 const createComment = async (req, res) => {
     try {
-        const { body, postId } = req.body;
-        const tokenHeader = req.headers["Authorization"];
-        const token = tokenHeader.substring("Bearer ".length);
-        var decoded = jwt.verify(token, JWT_SECRET);
-        let id=decoded.id;
-        const user = await User.findById(id);
-        const userId = user.id;
+        const { body, postId , userId} = req.body;
         const comment = await Comment.create({ userId, body, postId });
         comment.save();
         return res.status(201).json(comment);
@@ -90,7 +84,6 @@ const deleteComment = async (req, res) => {
 module.exports = {
   getComments,
   getComment,
-  getCommentsbyUser,
   createComment,
   updateComment,
   deleteComment,
