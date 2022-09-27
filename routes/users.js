@@ -3,8 +3,6 @@ const { isAdmin } = require("../middlewares/isAdmin");
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { getUserId } = require("../middlewares/getUserId");
 const router = express.Router();
-const { isAuthenticated } = require("../middlewares/isAuthenticated");
-const { isAdmin } = require("../middlewares/isAdmin");
 
 const {
   getUsers,
