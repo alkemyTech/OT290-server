@@ -1,4 +1,4 @@
-const { Comment , User } = require("../models");
+const { Comment, News } = require("../models");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
@@ -7,7 +7,17 @@ const getComments = async (req, res) => {
     const comments = await Comment.findAll();
     return res.status(200).json(comments);
   } catch (error) {
-    return res.status(500).json(comments);
+    return res.status(500).json(error);
+  }
+};
+
+const getCommentsFromNews = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comments = await Comment.findAll({ where: { postId: id } });
+    return res.status(200).json(comments);
+  } catch (error) {
+    return res.status(500).json(error);
   }
 };
 
@@ -25,14 +35,14 @@ const getComment = async (req, res) => {
 };
 
 const createComment = async (req, res) => {
-    try {
-        const { body, postId , userId} = req.body;
-        const comment = await Comment.create({ userId, body, postId });
-        comment.save();
-        return res.status(201).json(comment);
-      } catch (error) {
-        return res.status(500).json(error);
-      }
+  try {
+    const { body, postId, userId } = req.body;
+    const comment = await Comment.create({ userId, body, postId });
+    comment.save();
+    return res.status(201).json(comment);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 const updateComment = async (req, res) => {
@@ -87,4 +97,5 @@ module.exports = {
   createComment,
   updateComment,
   deleteComment,
+  getCommentsFromNews,
 };
