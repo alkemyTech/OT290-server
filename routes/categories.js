@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { body } = require("express-validator");
 const router = express.Router();
 
 const {
@@ -8,8 +8,13 @@ const {
 
 router.get('/', getCategories);
 router.get('/:id', getCategory);
-router.post('/', createCategory);
-router.put('/:id', updateCategory);
+router.post('/',
+  body("name").exists(),
+  body("name").notEmpty(),
+  body("name").isString(), createCategory);
+router.put('/:id',
+
+body("name").isString(), updateCategory);
 router.delete('/:id', deleteCategory);
 
 module.exports = router;
