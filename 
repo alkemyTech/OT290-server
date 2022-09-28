@@ -1,0 +1,249 @@
+[33mcommit 691dbd1a7302ce5fffbec32cbcc485ef0148bb82[m[33m ([m[1;36mHEAD -> [m[1;32mOT290-82[m[33m)[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Tue Sep 27 23:20:04 2022 -0300
+
+    Agregado metodo delete a controller de contact
+
+[33mcommit 25f60e4869e8c58e8ff279bd0bfd3c14190ac0d6[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Tue Sep 27 02:27:21 2022 -0300
+
+    agregada validacion para contact
+
+[33mcommit fe6e7c2b13d3729280141fa5f53f96feb1ec72f1[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Tue Sep 27 01:16:42 2022 -0300
+
+    agragando cambios de main a local
+
+[33mcommit 9ac830b5b27b2fd9dfddf82bb4fe9547f8673b9f[m
+Merge: e8c2c53 cdbb8e1
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Tue Sep 27 00:31:02 2022 -0300
+
+    Merge branch 'main' of github.com:alkemyTech/OT290-server
+
+[33mcommit e8c2c53d7a5ef36fc2a3aed68c6d4cf23fa148f8[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Tue Sep 27 00:24:46 2022 -0300
+
+    commit para poder descargar el pull
+
+[33mcommit cdbb8e1c99358f09b274219baec95b9b6283bc28[m
+Author: Lucas Carnero <lucas.carnero@naranja.com>
+Date:   Mon Sep 26 18:19:17 2022 -0300
+
+    fixes in userData method
+
+[33mcommit 1d00f14e1797d9e83c18ac0b202d43e54654c172[m
+Author: Lucas Carnero <lucas.carnero@naranja.com>
+Date:   Mon Sep 26 18:01:45 2022 -0300
+
+    adds placeholder for image name generation method
+
+[33mcommit 4f6baf54c7e530b6d2f94403bf40b176e4b0b9fb[m
+Author: Lucas Carnero <lucas.carnero@naranja.com>
+Date:   Mon Sep 26 17:53:11 2022 -0300
+
+    adds improvements in image names
+
+[33mcommit 91f27d39fb61efb2ea68b85553a91d4de854921d[m
+Author: Lucas Carnero <lucas.carnero@naranja.com>
+Date:   Mon Sep 26 17:48:17 2022 -0300
+
+    adds improvements in image upload logic
+
+[33mcommit 0a725c5b5140d5b066c213716bdafc7b23091d77[m
+Author: Lucas Carnero <lucas.carnero@naranja.com>
+Date:   Mon Sep 26 17:24:31 2022 -0300
+
+    fixes merge error in slides migration
+
+[33mcommit 5be4428c8c7a242655027783953b6c8a80dfc297[m
+Author: Lucas Carnero <lucas.carnero@naranja.com>
+Date:   Mon Sep 26 17:13:18 2022 -0300
+
+    adds missing userData method in auth controller
+
+[33mcommit 84ae91f5d9aa35225d9c6a6269398d5933bcfc13[m
+Merge: c2ed8b7 06875ef
+Author: Lucas Carnero <107282971+lucascarnero@users.noreply.github.com>
+Date:   Mon Sep 26 17:06:13 2022 -0300
+
+    Merge pull request #47 from alkemyTech/feature/OT290-60-b
+    
+    Feature/ot290 60 b
+
+[33mcommit c2ed8b7fd598e1a2104df73790f4a654f3d0233a[m
+Merge: 8bb0061 b155db3
+Author: Lucas Carnero <107282971+lucascarnero@users.noreply.github.com>
+Date:   Mon Sep 26 17:05:41 2022 -0300
+
+    Merge pull request #46 from alkemyTech/OT290-75
+    
+    Corrección de errores
+
+[33mcommit 06875efc39fc202bc4b116c2d323a7482f3ce92a[m
+Merge: 42614cb 8bb0061
+Author: nahuelflores <arcangel6191@gmail.com>
+Date:   Mon Sep 26 15:43:43 2022 -0300
+
+    Merge branch 'main' into feature/OT290-60-b
+
+[33mcommit 42614cbc03303ca8971de67aa1be9c7519e97339[m
+Author: nahuelflores <arcangel6191@gmail.com>
+Date:   Mon Sep 26 15:42:27 2022 -0300
+
+    Cambiado retorno de funcion decodeImage a un objeto para mejor accesibilidad.
+
+[33mcommit 7681f200f72e9c0d3f7f7413096398e2fbd4197c[m
+Author: nahuelflores <arcangel6191@gmail.com>
+Date:   Mon Sep 26 15:37:28 2022 -0300
+
+    Agregado servicio para decodificar imagen base64 y devolver arreglo con los datos decodificados y su extension
+
+[33mcommit b155db3d3a3c9cefb19366251ecf05b78a5fb8bd[m
+Merge: 9193085 8bb0061
+Author: Miguel Guerrero <91755159+Eiine@users.noreply.github.com>
+Date:   Mon Sep 26 12:50:37 2022 -0300
+
+    Merge branch 'main' into OT290-75
+
+[33mcommit 8bb00612988cd696ac784569135992290ba32863[m
+Merge: 0c3116b fd91525
+Author: Lucas Carnero <107282971+lucascarnero@users.noreply.github.com>
+Date:   Mon Sep 26 12:13:11 2022 -0300
+
+    Merge pull request #45 from alkemyTech/feature/OT290-45
+    
+    Completed Put categories
+
+[33mcommit 0c3116bbba5f3b7b7c33705f7f637da2f0ba54af[m
+Merge: 76d99f9 53d7368
+Author: Lucas Carnero <107282971+lucascarnero@users.noreply.github.com>
+Date:   Mon Sep 26 12:12:57 2022 -0300
+
+    Merge pull request #44 from alkemyTech/feature/OT290-42
+    
+    Completed getCategories
+
+[33mcommit 76d99f90bb5caf5ece238844dbb331145aa2a8e0[m
+Merge: f1dc4e4 dafde63
+Author: Lucas Carnero <107282971+lucascarnero@users.noreply.github.com>
+Date:   Mon Sep 26 12:12:40 2022 -0300
+
+    Merge pull request #43 from alkemyTech/feature/OT290-44
+    
+    Completed validation
+
+[33mcommit f1dc4e443d51465c20537f6fd24c0644915d27bf[m
+Merge: fcb73da 7f6db8f
+Author: Lucas Carnero <107282971+lucascarnero@users.noreply.github.com>
+Date:   Mon Sep 26 12:12:28 2022 -0300
+
+    Merge pull request #42 from alkemyTech/routes-debugging-25/09
+    
+    Bugs solved in users and auth controllers.
+
+[33mcommit fd915253de80204748f235aaa7615e6d3acf09b1[m
+Author: Geronimo Anselmo <geronimoalejandroanselmo@gmail.com>
+Date:   Sun Sep 25 20:44:57 2022 -0300
+
+    Missing validation error handle
+
+[33mcommit 758ed30fba18d839da0876cdd6d32e84285990cf[m
+Author: Geronimo Anselmo <geronimoalejandroanselmo@gmail.com>
+Date:   Sun Sep 25 20:42:07 2022 -0300
+
+    Completed
+
+[33mcommit 04e99bda721e9e5411e4859f0328d154dad640ee[m
+Author: Geronimo Anselmo <geronimoalejandroanselmo@gmail.com>
+Date:   Sun Sep 25 20:41:30 2022 -0300
+
+    Completed
+
+[33mcommit 53d7368503bb4b4c52f2e7541c086cb6d869dd3e[m
+Author: Geronimo Anselmo <geronimoalejandroanselmo@gmail.com>
+Date:   Sun Sep 25 20:39:16 2022 -0300
+
+    Completed
+
+[33mcommit 9193085c53283d624ad254097aa900966452ea93[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Sun Sep 25 20:35:19 2022 -0300
+
+    Agragada validacion de admin para eliminar miembros y controller del mismo
+
+[33mcommit dafde63db15724516291708ae6c5a739de4d3b2b[m
+Author: Geronimo Anselmo <geronimoalejandroanselmo@gmail.com>
+Date:   Sun Sep 25 20:32:44 2022 -0300
+
+    Completed validation
+
+[33mcommit 8a527f107ab2a7bd0258b4f30ee41cb7bb9136cd[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Sun Sep 25 20:25:14 2022 -0300
+
+    Agregada validacion de administrador al
+    endpoint contact
+
+[33mcommit 2bb7eca0886f23bd907b7f0b72c0e909bf146991[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Sun Sep 25 20:21:16 2022 -0300
+
+    Agregada validacion de administrador a contact
+
+[33mcommit c64777ac7c99f68f63e9f971ebb3c28374955c66[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Sun Sep 25 19:38:49 2022 -0300
+
+    Agregada comprobacion en el campo name
+
+[33mcommit 7f6db8f86953e1c6d1add9b7298336eafebca3d9[m
+Author: Baltasar Amaya <baltaamaya@gmail.com>
+Date:   Sun Sep 25 18:25:14 2022 -0300
+
+    Controllers import in routes corrected and create commment optimized
+
+[33mcommit aacbf6ea57ebcfaae9e5230cca501eb0d90325c8[m
+Author: Baltasar Amaya <baltaamaya@gmail.com>
+Date:   Sun Sep 25 11:38:22 2022 -0300
+
+    Bugs solved in users and auth controllers.
+    Bugs solved in users, auth, comments and contact.
+
+[33mcommit fcb73dad701f9957a2c3fa8ab3352a0df83a1464[m
+Merge: aea812a f1add67
+Author: Lucas Carnero <107282971+lucascarnero@users.noreply.github.com>
+Date:   Sat Sep 24 19:51:00 2022 -0300
+
+    Merge pull request #41 from alkemyTech/OT290-64
+    
+    creada ruta y controller para contact, renombrado getAut a userLogin
+
+[33mcommit f1add6735c5501b1716f3eddac4ae913a25cb4a8[m[33m ([m[1;31morigin/OT290-64[m[33m)[m
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Sat Sep 24 17:50:29 2022 -0300
+
+    correjido error en testimonials
+
+[33mcommit ee72bf1e28db0a02f711e92538c3a3062d0a96ef[m
+Merge: 3929ad6 aea812a
+Author: Miguel Guerrero <yannokaiserfrom@gmail.com>
+Date:   Sat Sep 24 17:43:21 2022 -0300
+
+    Resolviendo conflictos entre repositorio y loclal
+
+[33mcommit aea812a06c1b0d888643c6c7d30673c8d16cc5e4[m
+Merge: 71a8a20 30412a5
+Author: Lucas Carnero <107282971+lucascarnero@users.noreply.github.com>
+Date:   Sat Sep 24 11:13:20 2022 -0300
+
+    Merge pull request #40 from alkemyTech/feature/OT290-81
+    
+    Endpoint for listing comments created
+
+[33mcommit 71a8a20042bc147b589b5230af89b19ae731fe98[m
+Merge: 0bbe3c8 4536406
+Author: Luca
