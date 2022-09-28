@@ -26,8 +26,11 @@ const decodeImage = (data) => {
 // generateImageName('user', 'png') -> user-12371232323132.png
 // generateImageName('slide', 'jpg') -> slide-978612397612947.jpg
 
-const generateImageName = (entity, extension) => {};
+const generateImageName = (entity, imageTimestamp, extension) => {
+  return `${entity}-${imageTimestamp}.${extension}`
+};
 
 module.exports = {
   decodeImage,
+  generateImageName
 };

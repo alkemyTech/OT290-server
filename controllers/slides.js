@@ -1,7 +1,7 @@
 const { Slides } = require("../models");
 
-const { uploadFileS3 } = require("../services/S3storage");
-const { decodeImage } = require("../services/images");
+const { uploadFileS3, deleteFileS3 } = require("../services/S3storage");
+const { decodeImage, generateImageName } = require("../services/images");
 
 const getSlides = async (req, res) => {
   await Slides.findAll()
@@ -34,8 +34,7 @@ const createSlide = async (req, res) => {
     let imageTimestamp = Date.now();
 
     let imageUrl = await uploadFileS3(
-      imageInfo.datos,
-      `imagen-${imageTimestamp}.${imageInfo.extension}`
+      imageInfo.datos,generateImageName('slide', imageTimestamp, imageInfo.extension)
     );
     if (!order) {
       order = await Slides.count({
@@ -62,11 +61,17 @@ const createSlide = async (req, res) => {
 const updateSlide = async (req, res) => {
   try {
     const { id } = req.params;
-    const { imageUrl, text, order, organization_id } = req.body;
+    const { image, text, order, organization_id } = req.body;
     const slideFound = await Slides.findByPk(id);
     if (!slideFound) {
       return res.status(404).send({ message: "Slide inexistente" });
     }
+    await deleteFileS3(slideFound.imageUrl);
+    let imageInfo = decodeImage(image);
+    let imageTimestamp = Date.now();
+    let imageUrl = await uploadFileS3(
+      imageInfo.datos,generateImageName('slide', imageTimestamp, imageInfo.extension)
+    ); 
     await Slides.update(
       { imageUrl, text, order, organization_id },
       {
@@ -88,6 +93,7 @@ const deleteSlide = async (req, res) => {
     if (!slideFound) {
       return res.status(404).send({ message: "Slide Inexistente" });
     }
+    await deleteFileS3(slideFound.imageUrl);
     await Slides.destroy({
       where: {
         id: id,
