@@ -61,6 +61,25 @@ const getContacts= async (req,res)=>{
         return { contact };
       };
 
+      const deleteContact = async (req, res) => {
+        try {
+          const { id } = req.params;
+      
+          const deleteContact = await Contact.findByPk(id);
+          if (!deleteContact) {
+            return res.sendStatus(404);
+          }
+      
+          await Contact.destroy({
+            where: {
+              id,
+            },
+          });
+          return res.status(200).json(deleteContact);
+        } catch (err) {
+          return res.status(500).json(err);
+        }
+      };
      
 
 module.exports={
@@ -68,5 +87,6 @@ module.exports={
     getContact,
     createContact,
     updateContact,
+    deleteContact
   
 }
