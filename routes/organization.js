@@ -21,10 +21,4 @@ router.post(
   controllers.updateOrganization
 );
 
-// Nano: Endpoints creados en Sprint1 que no han sido requeridos hasta ahora
-// router.delete("/:id", controllers.deleteOrganization);
-// router.get("/", controllers.getOrganizations);
-// router.post("/", controllers.createOrganization);
-// router.put("/:id", controllers.updateOrganization);
-
 module.exports = router;
