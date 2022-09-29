@@ -1,6 +1,8 @@
 const { User } = require("../models");
 // Nano: Import bcrypt library to encrypt passwords
 const bcrypt = require("bcrypt");
+const { uploadFileS3, deleteFileS3 } = require("../services/S3storage");
+const { decodeImage, generateImageName } = require("../services/images");
 
 const getUsers = async (req, res) => {
   try {
@@ -30,15 +32,20 @@ const createUser = async (req, res) => {
   // Nano: Create salt and make hash to encrypt passwords
   const salt = await bcrypt.genSalt();
   const encryptedPassword = await bcrypt.hash(password, salt);
+  let imageInfo = decodeImage(photo);
+  let imageTimestamp = Date.now();
+  let imageUrl = await uploadFileS3(
+    imageInfo.datos,generateImageName('user', imageTimestamp, imageInfo.extension)
+  );  
   const user = await User.create({
     firstName,
     lastName,
     email,
     password: encryptedPassword,
-    photo,
+    photo: imageUrl,
     roleId,
   });
-
+  
   return { ...user.dataValues, password: undefined };
 };
 
@@ -51,8 +58,14 @@ const updateUser = async (req, res) => {
       return res.sendStatus(404);
     }
     if (id == userId) {
+      await deleteFileS3(user.photo);
+      let imageInfo = decodeImage(photo);
+      let imageTimestamp = Date.now();
+      let imageUrl = await uploadFileS3(
+        imageInfo.datos,generateImageName('user', imageTimestamp, imageInfo.extension)
+      );  
       const update = await User.update(
-        { firstName, lastName, email, password, photo, roleId },
+        { firstName, lastName, email, password, photo: imageUrl, roleId },
         {
           where: {
             id,
@@ -77,6 +90,7 @@ const deleteUser = async (req, res) => {
       return res.sendStatus(404);
     }
     if (id == userId) {
+      await deleteFileS3(user.photo);
       await User.destroy({
         where: {
           id,

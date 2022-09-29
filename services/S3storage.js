@@ -1,6 +1,7 @@
 const AWS = require("aws-sdk");
 const fs = require("fs");
 require("dotenv").config();
+const AmazonS3URI = require('amazon-s3-uri');
 
 AWS.config.update({
   accessKeyId: process.env.AWS_PUBLIC_KEY_ID,
@@ -37,6 +38,18 @@ const uploadFileS3 = (imageBuffer, imageName) => {
   });
 };
 
-module.exports = {
-  uploadFileS3,
+const deleteFileS3 = (imageUrl) => {
+  var { bucket , key } = AmazonS3URI(imageUrl)
+  var deleteParams = {
+    Bucket: bucket,
+    Key: key,
+  };
+
+  s3.deleteObject(deleteParams, (err, data) => {
+    if (err) {
+      reject(err);
+    }
+  });
 };
+
+module.exports = { uploadFileS3, deleteFileS3};

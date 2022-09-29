@@ -1,8 +1,7 @@
 const { Slides } = require("../models");
-const { Buffer } = require("node:buffer");
-const base64 = require("base-64");
 
-const { uploadFileS3 } = require("../services/S3storage");
+const { uploadFileS3, deleteFileS3 } = require("../services/S3storage");
+const { decodeImage, generateImageName } = require("../services/images");
 
 const getSlides = async (req, res) => {
   await Slides.findAll()
@@ -30,9 +29,13 @@ const createSlide = async (req, res) => {
   try {
     const { image, text, organization_id } = req.body;
     let { order } = req.body;
-    // BITMAP THE IMAGEN
-    let bitmap = Buffer.from(base64.decode(image)); // .toString('base64');
-    let imageUrl = await uploadFileS3(bitmap, "imagen.png");
+    let imageInfo = decodeImage(image);
+
+    let imageTimestamp = Date.now();
+
+    let imageUrl = await uploadFileS3(
+      imageInfo.datos,generateImageName('slide', imageTimestamp, imageInfo.extension)
+    );
     if (!order) {
       order = await Slides.count({
         where: {
@@ -58,11 +61,17 @@ const createSlide = async (req, res) => {
 const updateSlide = async (req, res) => {
   try {
     const { id } = req.params;
-    const { imageUrl, text, order, organization_id } = req.body;
+    const { image, text, order, organization_id } = req.body;
     const slideFound = await Slides.findByPk(id);
     if (!slideFound) {
       return res.status(404).send({ message: "Slide inexistente" });
     }
+    await deleteFileS3(slideFound.imageUrl);
+    let imageInfo = decodeImage(image);
+    let imageTimestamp = Date.now();
+    let imageUrl = await uploadFileS3(
+      imageInfo.datos,generateImageName('slide', imageTimestamp, imageInfo.extension)
+    ); 
     await Slides.update(
       { imageUrl, text, order, organization_id },
       {
@@ -84,6 +93,7 @@ const deleteSlide = async (req, res) => {
     if (!slideFound) {
       return res.status(404).send({ message: "Slide Inexistente" });
     }
+    await deleteFileS3(slideFound.imageUrl);
     await Slides.destroy({
       where: {
         id: id,

@@ -42,7 +42,7 @@ app.use("/members", membersRouter);
 app.use("/organization", organizationRouter);
 app.use("/news", newsRouter);
 app.use("/contacts", contactRouter);
-app.use("/slides", slidesRouter);
+app.use("/slides",slidesRouter);
 app.use("/news", newsRouter);
 app.use("/comments", commentsRouter);
 
