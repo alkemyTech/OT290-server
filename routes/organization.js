@@ -16,6 +16,9 @@ router.post(
   body("email").isEmail(),
   body("welcomeText").isString(),
   body("aboutUsText").isString(),
+  body("facebook").isURL(),
+  body("linkedin").isURL(),
+  body("instagram").isURL(),
   isAuthenticated,
   isAdmin,
   controllers.updateOrganization
