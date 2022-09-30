@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contacts</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <header class="Cabecera">
+        <h3>Contactos</h3>
+        <% contacts.forEach((contacts)=>{ %>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th><%- contacts.id%> </th>
+            <th><%- contacts.name%></th>
+            <th><%- contacts.phone%></th>
+            <th><%- contacts.email%></th>
+          </tr>
+        </thead>
+        </tbody>
+        <%})%>
+  </body>
+</html>
