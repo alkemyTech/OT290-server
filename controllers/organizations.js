@@ -18,8 +18,12 @@ const getOrganization = async (req, res) => {
     if (!organization) {
       return res.send("Not found");
     }
-    const { name, image, phone, address } = organization;
-    res.send({ name, image, phone, address });
+    res.send({
+      ...organization.dataValues,
+      createdAt: undefined,
+      updatedAt: undefined,
+      deletedAt: undefined,
+    });
   } catch (error) {
     res.send(error);
   }
@@ -51,7 +55,18 @@ const updateOrganization = async (req, res) => {
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
   //Nano: Continue if no errors
   const id = 1;
-  const { name, image, address, phone, email, welcomeText, aboutUsText } = req.body;
+  const {
+    name,
+    image,
+    address,
+    phone,
+    email,
+    welcomeText,
+    aboutUsText,
+    facebook,
+    linkedin,
+    instagram,
+  } = req.body;
 
   try {
     const [organization, created] = await Organization.findOrCreate({
@@ -64,6 +79,9 @@ const updateOrganization = async (req, res) => {
         email,
         welcomeText,
         aboutUsText,
+        facebook,
+        linkedin,
+        instagram,
       },
     });
 
@@ -77,6 +95,9 @@ const updateOrganization = async (req, res) => {
           email,
           welcomeText,
           aboutUsText,
+          facebook,
+          linkedin,
+          instagram,
         },
         { where: { id } }
       );
