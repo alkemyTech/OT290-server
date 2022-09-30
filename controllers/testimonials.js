@@ -1,9 +1,21 @@
 const { Testimonials } = require('../models');
 
 const getTestimonials = async (req, res) => {
-  await Testimonials.findAll()
+  let { page } = req.params;
+  if (!page){ page = 1 }
+  const URL = `${req.protocol}://${req.get('host')}`;
+  
+  await Testimonials.findAll({
+    limit: 10,
+    offset: (10*(page-1))
+  })
     .then((items) => {
-      return res.status(200).json(items);
+      const response = {
+        nextPage : (items.length < 10 ? `${URL}?page=${page}`:`${URL}?page=${page+1}`),
+        items : items,
+        previousPage : ( page == 1 ? `${URL}?page=${page}`:`${URL}?page=${page-1}`)
+      }
+      return res.status(200).json(response);
     })
     .catch((err) => {
       return res.status(500).json(err);
