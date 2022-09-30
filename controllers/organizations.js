@@ -1,97 +1,110 @@
+const { Organization } = require("../models");
+const { validationResult } = require("express-validator");
 
-const { Organization } = require('../models');
+const getOrganizations = async (req, res) => {
+  try {
+    const organizations = await Organization.findAll();
+    res.send(organizations);
+  } catch (error) {
+    res.send(error);
+  }
+};
 
-
-
-   const getOrganizations= async (req,res)=>{
-    try {
-        const organizations = await Organization.findAll()
-        res.send(organizations)
-    } catch (error) {
-        res.send(error)
+const getOrganization = async (req, res) => {
+  // const { id } = req.params;
+  const id = 1;
+  try {
+    const organization = await Organization.findByPk(id);
+    if (!organization) {
+      return res.send("Not found");
     }
-    };
+    const { name, image, phone, address } = organization;
+    res.send({ name, image, phone, address });
+  } catch (error) {
+    res.send(error);
+  }
+};
 
-    const getOrganion= async (req,res)=>{
-        
-        const {id}=req.params
-        try {
-            const organitation= await Organization.findByPk(id)
-            if (!organitation) {
-               return  res.send("Not found")
-            }
-            res.send(organitation)
-        } catch (error) {
-            res.send(error)
-        }
-    };
+const createOrganization = async (req, res) => {
+  const { name, image, address, phone, email, welcomeText, aboutUsText } = req.body;
 
-    const createOrganion= async (req,res)=>{
-        
-        const{name, image, address, phone, email,welcomeText, aboutUsText}=req.body
-        
-        try {
-            const organitation= await Organization.create({
-                name: name,
-                image:image,
-                address:address,
-                phone:phone,
-                email:email,
-                welcomeText:welcomeText,
-                aboutUsText
-            });
-           
-           
-            res.send(organitation)
-        } catch (error) {
-            res.send(error)
-        }
-        
-    };
-    
-    const updateOrganion= async (req,res)=>{
-        const {id}=req.params
-        const{name, image, address, phone, email,welcomeText, aboutUsText}=req.body
-        
-        try {
-            const organitation= await Organization.update({
-                name: name,
-                image:image,
-                address:address,
-                phone:phone,
-                email:email,
-                welcomeText:welcomeText,
-                aboutUsText:aboutUsText
-            }, {where: {id}});
-        
-            res.send(`Organitation update id ${id}`)
-        } catch (error) {
-            res.send(error)
-        }
-    };
+  try {
+    const organization = await Organization.create({
+      name: name,
+      image: image,
+      address: address,
+      phone: phone,
+      email: email,
+      welcomeText: welcomeText,
+      aboutUsText,
+    });
 
-    const deleteOrganion= async (req,res)=>{
-        
-        const {id}=req.params
-        console.log(id);
-        try {
-            const organitation= await Organization.destroy({where:{id}})
-            if (!organitation) {
-                return res.send("Not found")
-            }
-            res.send("Organization delete")
-        } catch (error) {
-            res.send(error)
-        }
-    };
+    res.send(organization);
+  } catch (error) {
+    res.send(error);
+  }
+};
 
+const updateOrganization = async (req, res) => {
+  //Nano: Validate errors in request to stop if there's any
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+  //Nano: Continue if no errors
+  const id = 1;
+  const { name, image, address, phone, email, welcomeText, aboutUsText } = req.body;
 
+  try {
+    const [organization, created] = await Organization.findOrCreate({
+      where: { id },
+      defaults: {
+        name,
+        image,
+        address,
+        phone,
+        email,
+        welcomeText,
+        aboutUsText,
+      },
+    });
 
+    if (!created) {
+      await Organization.update(
+        {
+          name,
+          image,
+          address,
+          phone,
+          email,
+          welcomeText,
+          aboutUsText,
+        },
+        { where: { id } }
+      );
+    }
+    res.send(`Organization update id ${name}`);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const deleteOrganization = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const organization = await Organization.destroy({ where: { id } });
+    if (!organization) {
+      return res.send("Not found");
+    }
+    res.send("Organization delete");
+  } catch (error) {
+    res.send(error);
+  }
+};
 
 module.exports = {
-    getOrganizations,
-    getOrganion,
-    createOrganion,
-    updateOrganion,
-    deleteOrganion
-}
+  getOrganizations,
+  getOrganization,
+  createOrganization,
+  updateOrganization,
+  deleteOrganization,
+};
