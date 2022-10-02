@@ -25,19 +25,28 @@ const getComment = async (req, res) => {
   }
 };
 
-const createComment = async (req, res) => {
-    try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty())
-        return res.status(400).json({ errors: errors.array() });
+const getCommentsFromNews = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comments = await Comment.findAll({ where: { postId: id } });
+    return res.status(200).json(comments);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
 
-        const { body, postId , userId} = req.body;
-        const comment = await Comment.create({ userId, body, postId });
-        comment.save();
-        return res.status(201).json(comment);
-      } catch (error) {
-        return res.status(500).json(error);
-      }
+const createComment = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    const { body, postId, userId } = req.body;
+    const comment = await Comment.create({ userId, body, postId });
+    comment.save();
+    return res.status(201).json(comment);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 const updateComment = async (req, res) => {
@@ -86,4 +95,5 @@ module.exports = {
   createComment,
   updateComment,
   deleteComment,
+  getCommentsFromNews,
 };
