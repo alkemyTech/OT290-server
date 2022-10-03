@@ -5,24 +5,19 @@ const getCategories = async (req, res) => {
   try {
     let page = req.query.page ? Number(req.query.page) : 1;
     const limit = 10;
-    const URL = `${req.protocol}://${req.get("host")}`;
+    const URL = `${req.protocol}://${req.get("host")}/categories`;
     const totalCategories = await Category.count();
     if (page > Math.floor(totalCategories / limit + 1))
-      return res
-        .status(404)
-        .json(`Page ${Math.floor(totalCategories / limit + 1)} it the last page`);
+      return res.status(404).json({ nextPage: null, data: [], previousPage: null });
     const categories = await Category.findAll({
       attributes: ["id", "name"],
       limit,
       offset: limit * (page - 1),
     });
     const response = {
-      nextPage:
-        totalCategories > page * limit
-          ? `${URL}?page=${page + 1}`
-          : "This is the last page",
+      nextPage: totalCategories > page * limit ? `${URL}?page=${page + 1}` : null,
       data: categories,
-      previousPage: page == 1 ? "This is the fist page" : `${URL}?page=${page - 1}`,
+      previousPage: page == 1 ? null : `${URL}?page=${page - 1}`,
     };
     return res.status(200).json(response);
   } catch (error) {
