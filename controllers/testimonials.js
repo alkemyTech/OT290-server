@@ -3,7 +3,7 @@ const { Testimonials } = require('../models');
 const getTestimonials = async (req, res) => {
   let { page } = req.params;
   if (!page){ page = 1 }
-  const URL = `${req.protocol}://${req.get('host')}`;
+  const URL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   
   await Testimonials.findAll({
     limit: 10,
