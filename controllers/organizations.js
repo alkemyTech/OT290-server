@@ -19,6 +19,7 @@ const getOrganization = async (req, res) => {
       id,
       {include:[{
         model: Slides,
+        order: ['order','ASC']
       }]});
     if (!organization) {
       return res.send("Not found");
