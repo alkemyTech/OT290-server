@@ -1,8 +1,10 @@
 const { Testimonials } = require('../models');
 
 const getTestimonials = async (req, res) => {
+  // NUMERO EN STRING
   let { page } = req.query;
-  console.log(page);
+  // CONVERSION A INT POR SEGURIDAD
+  page = parseInt(page);
   // EN caso de que no se pase por url la pagina, se devolvera un error
   if (!page){ page = -1 }
   const limitPage = 10;
@@ -13,7 +15,7 @@ const getTestimonials = async (req, res) => {
   const ultimaPagina = (count % limitPage) == 0 ? 0:1;  
   const maxPage = Math.floor(count/10)+ultimaPagina;
 
-  const URL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+  const URL = `${req.protocol}://${req.get('host')}${req.baseUrl}`;
 
   if ((page > maxPage) || (page <= 0)){
     // ERROR IN PAGE ASKED
@@ -30,9 +32,9 @@ const getTestimonials = async (req, res) => {
     })
       .then((items) => {
         const response = {
-          nextPage : (page > maxPage ? null:`${URL}?page=${page+1}`),
+          nextPage : (page > maxPage ? null:`${URL}?page=${page++}`),
           items : items,
-          previousPage : ( page == 1 ? null:`${URL}?page=${page-1}`)
+          previousPage : ( page == 1 ? null:`${URL}?page=${page--}`)
         }
         return res.status(200).json(response);
       })
