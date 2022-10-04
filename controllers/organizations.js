@@ -1,4 +1,5 @@
 const { Organization } = require("../models");
+const { Slides } = require("../models");
 const { validationResult } = require("express-validator");
 
 const getOrganizations = async (req, res) => {
@@ -14,7 +15,12 @@ const getOrganization = async (req, res) => {
   // const { id } = req.params;
   const id = 1;
   try {
-    const organization = await Organization.findByPk(id);
+    const organization = await Organization.findByPk(
+      id,
+      {include:[{
+        model: Slides,
+        order: ['order','ASC']
+      }]});
     if (!organization) {
       return res.send("Not found");
     }
@@ -110,7 +116,6 @@ const updateOrganization = async (req, res) => {
 
 const deleteOrganization = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const organization = await Organization.destroy({ where: { id } });
     if (!organization) {
