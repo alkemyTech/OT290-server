@@ -1,6 +1,7 @@
 const { Contact } = require("../models");
+const { Organization } = require("../models");
 const { validationResult } = require("express-validator");
-
+const { sendContactEmail } = require("../helpers/email");
 const getContacts = async (req, res) => {
   try {
     const contacts = await Contact.findAll();
@@ -30,6 +31,8 @@ const createContact = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   const { name, email, phone, message } = req.body;
+  const organitation= await Organization.findByPk(1);
+  await sendContactEmail(email, organitation.facebook, organization.linkedIn, organization.instagram);
   const contact = await Contact.create({
     name,
     phone,

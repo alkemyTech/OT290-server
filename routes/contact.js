@@ -1,8 +1,8 @@
 let express = require('express');
 let router = express.Router();
-let controllers= require('../controllers/contact')
-let {isAuthenticated}= require('../middlewares/IsAuthenticated')
-const { isAdmin }= require("../middlewares/isAdmin")
+let controllers= require('../controllers/contact');
+let {isAuthenticated}= require('../middlewares/IsAuthenticated');
+const { isAdmin }= require("../middlewares/isAdmin");
 const { body } = require("express-validator");
 
 router.get('/',isAuthenticated, isAdmin, controllers.getContact);

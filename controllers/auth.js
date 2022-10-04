@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const { signToken } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const { sendEmail } = require("../helpers/email")
+const { sendRegistrationEmail } = require("../helpers/email");
 
 const userRegister = async (req, res) => {
   try {
@@ -20,7 +20,7 @@ const userRegister = async (req, res) => {
 
     if (user) {
       const organitation= await Organization.findByPk(1)
-      await sendEmail(user.email, user.firstName, user.lastName, organitation.facebook, organization.linkedIn, organization.instagram);
+      await sendRegistrationEmail(user.email, user.firstName, user.lastName, organitation.facebook, organization.linkedIn, organization.instagram);
       delete user.password;
       const token = signToken(user);
       return res.status(201).json(token);
