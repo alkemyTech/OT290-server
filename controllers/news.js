@@ -2,9 +2,37 @@ const { News } = require('../models');
 
 const getAllNews = async (req, res) => {
   try {
-    const news = await News.findAll();
-    return res.status(200).json(news);
+    const url = req.protocol + "://" + req.get('host') +"/news";
+    let { page } = req.query;
+    const limit = 10;
+
+    (page) ? page=parseInt(page) : page = 1;
+    const offset = 10*(page - 1)
+  
+    const news = await News.findAll({
+      offset, limit,
+    });
+    const count = await News.count();
+
+    let next = null;
+    if(count>offset+limit){
+       next = url+"?page="+(parseInt(page)+1);
+    }
+    
+    let previous = null;
+    if(offset!=0){
+      previous = url+"?page="+(parseInt(page)-1);
+   }
+   
+    const response = {
+      data:news,
+      next,
+      previous
+    }
+
+    return res.status(200).json(response);
   } catch (error) {
+    console.log(error)
     return res.status(500).json(error);
   }
 };
