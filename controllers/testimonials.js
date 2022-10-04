@@ -1,25 +1,45 @@
 const { Testimonials } = require('../models');
 
 const getTestimonials = async (req, res) => {
-  let { page } = req.params;
-  if (!page){ page = 1 }
+  let { page } = req.query;
+  console.log(page);
+  // EN caso de que no se pase por url la pagina, se devolvera un error
+  if (!page){ page = -1 }
+  const limitPage = 10;
+  const offsetPage = 10*(page-1);
+  // CONSULTA A LA DB PARA LA CANTIDAD DE REGISTROS
+  const {count , rows } = await Testimonials.findAndCountAll({});
+  // Valor para saber si existen elementos menores al limitPage
+  const ultimaPagina = (count % limitPage) == 0 ? 0:1;  
+  const maxPage = Math.floor(count/10)+ultimaPagina;
+
   const URL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-  
-  await Testimonials.findAll({
-    limit: 10,
-    offset: (10*(page-1))
-  })
-    .then((items) => {
-      const response = {
-        nextPage : (items.length < 10 ? `${URL}?page=${page}`:`${URL}?page=${page+1}`),
-        items : items,
-        previousPage : ( page == 1 ? `${URL}?page=${page}`:`${URL}?page=${page-1}`)
-      }
-      return res.status(200).json(response);
+
+  if ((page > maxPage) || (page <= 0)){
+    // ERROR IN PAGE ASKED
+    const response = {
+      nextPage : null,
+      items : [],
+      previousPage : null
+    }
+    res.status(404).json(response);
+  } else {
+    await Testimonials.findAll({
+      limit: limitPage,
+      offset: offsetPage
     })
-    .catch((err) => {
-      return res.status(500).json(err);
-    });
+      .then((items) => {
+        const response = {
+          nextPage : (page > maxPage ? null:`${URL}?page=${page+1}`),
+          items : items,
+          previousPage : ( page == 1 ? null:`${URL}?page=${page-1}`)
+        }
+        return res.status(200).json(response);
+      })
+      .catch((err) => {
+        return res.status(500).json(err);
+      });
+  }
 };
 
 const getTestimonial = async(req,res) => {
