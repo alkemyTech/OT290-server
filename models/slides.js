@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Slides.belongsTo(models.Organization, {
         foreignKey: {
-          name: "organizationId",
+          name: "OrganizationId",
           type: DataTypes.INTEGER,
           allowNull: false,
         },

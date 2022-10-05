@@ -25,6 +25,15 @@ const getContact = async (req, res) => {
   }
 };
 
+const getBackContacts = async (req, res) => {
+  try {
+    const contacts = await Contact.findAll();
+    res.render("contacts", {contacts});
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 const createContact = async (req, res) => {
   // try {
   const errors = validationResult(req);
@@ -41,7 +50,7 @@ const createContact = async (req, res) => {
     message,
   });
 
-  return { contact };
+  res.send(contact)
 };
 
       const updateContact = async (req, res) => {
@@ -88,6 +97,7 @@ module.exports={
     getContact,
     createContact,
     updateContact,
-    deleteContact
+    deleteContact,
+    getBackContacts
   
 }
