@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const { Organization } = require("../models");
 // Nano: Import express validator to check types of input variables
 const { validationResult } = require("express-validator");
 const { createUser } = require("./users");
@@ -6,6 +7,7 @@ const bcrypt = require("bcrypt");
 const { signToken } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
+const { sendRegistrationEmail } = require("../helpers/email");
 
 const userRegister = async (req, res) => {
   try {
@@ -17,6 +19,8 @@ const userRegister = async (req, res) => {
     const user = await createUser(req, res);
 
     if (user) {
+      const organitation= await Organization.findByPk(1)
+      await sendRegistrationEmail(user.email, user.firstName, user.lastName, organitation.facebook, organization.linkedIn, organization.instagram);
       delete user.password;
       const token = signToken(user);
       return res.status(201).json(token);
