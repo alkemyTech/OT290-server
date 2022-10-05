@@ -8,7 +8,7 @@ const sendRegistrationEmail = async (to, firstName, lastName, facebook, linkedIn
   try {
     client.setApiKey(SENDGRID_API_KEY);
     let emailTemplate;
-    ejs.renderFile(path.join(__dirname, '/views/email-template.ejs'), 
+    ejs.renderFile(path.join(__dirname, '..', 'views', 'email-template.ejs'), 
     { firstName, lastName, facebook, linkedIn, instagram })
     .then(result => {
       emailTemplate = result;
@@ -29,7 +29,7 @@ const sendContactEmail = async (to, facebook, linkedIn, instagram) => {
   try {
     client.setApiKey(SENDGRID_API_KEY);
     let emailTemplate;
-    ejs.renderFile(path.join(__dirname, '/views/contact.ejs'), 
+    ejs.renderFile(path.join(__dirname,'..', 'views', 'contact.ejs'), 
     { facebook, linkedIn, instagram })
     .then(result => {
       emailTemplate = result;
