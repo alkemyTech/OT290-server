@@ -40,6 +40,8 @@ const { userRegister, userLogin, userData } = require("../controllers/auth");
  *     responses:
  *       201:
  *         description: Usuario creado satisfactoriamente
+ *       500:
+ *         description: Error al registrar usuario
  */
 router.post(
   "/register",
@@ -49,14 +51,67 @@ router.post(
   body("password").isStrongPassword(),
   userRegister
 );
-
+/**
+ * @openapi
+ * /auth/login:
+ *  post:
+ *     tags:
+ *     - Auth
+ *     description: Login de usuario
+ *     requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *             schema:
+ *                type: object
+ *                required:
+ *                  - email
+ *                  - password
+ *                properties:
+ *                  firstName:
+ *                    type: string
+ *                  lastName:
+ *                    type: string
+ *                  email:
+ *                    type: string
+ *                  password:
+ *                    type: string
+ *                  photo:
+ *                    type: string
+ *     responses:
+ *       401.1:
+ *         description: Usuario no existente
+ *       400:
+ *         description: Error de validacion
+ *       200:
+ *         description: Login realizado satisfactoriamente
+ */
 router.post(
   "/login",
   body("email").isEmail(), // username must be an email
   body("password").isLength({ min: 5 }), // password must be at least 5 chars long
   userLogin
 );
-
+/**
+ * @openapi
+ * /auth/me:
+ *  get:
+ *     tags:
+ *     - Auth
+ *     description: Informacion de usuario logueado
+ *     parameters:
+ *      - in: header
+ *        name: authorization
+ *        description: Token del usuario
+ *        required: true
+ *     responses:
+ *       404:
+ *         description: Usario no encontrado
+ *       500:
+ *         description: Error al obtener informacion de usuario logueado
+ *       200:
+ *         description: Informacion de usuario logueado obtenida satisfactoriamente
+ */
 router.get("/me", isAuthenticated, userData);
 
 module.exports = router;
