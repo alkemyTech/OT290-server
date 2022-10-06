@@ -19,8 +19,15 @@ const userRegister = async (req, res) => {
     const user = await createUser(req, res);
 
     if (user) {
-      const organization= await Organization.findByPk(1)
-      await sendRegistrationEmail(user.email, user.firstName, user.lastName, organization.facebook, organization.linkedIn, organization.instagram);
+      const organization = await Organization.findByPk(1);
+      await sendRegistrationEmail(
+        user.email,
+        user.firstName,
+        user.lastName,
+        organization.facebook,
+        organization.linkedIn,
+        organization.instagram
+      );
       delete user.password;
       const token = signToken(user);
       return res.status(201).json(token);
@@ -45,7 +52,9 @@ const userLogin = async (req, res) => {
       res.status(401.1).send("usuario no existe");
     } else if ((await bcrypt.compare(password, pass)) == true) {
       const token = signToken(user);
-      res.status(200).send({ ...user.dataValues, password: undefined, token });
+      const tokenA = token.accessToken;
+      const tokenR = token.refreshToken;
+      res.status(200).send({ accesToken: tokenA, refreshToken: tokenR });
     } else {
       res.status(401.1).send("ok:false");
     }
