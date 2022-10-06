@@ -52,7 +52,9 @@ const userLogin = async (req, res) => {
       res.status(401.1).send("usuario no existe");
     } else if ((await bcrypt.compare(password, pass)) == true) {
       const token = signToken(user);
-      res.status(200).send({ ...user.dataValues, password: undefined, token });
+      const tokenA = token.accessToken;
+      const tokenR = token.refreshToken;
+      res.status(200).send({ accesToken: tokenA, refreshToken: tokenR });
     } else {
       res.status(401.1).send("ok:false");
     }
