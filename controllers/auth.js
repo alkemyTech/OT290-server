@@ -19,8 +19,15 @@ const userRegister = async (req, res) => {
     const user = await createUser(req, res);
 
     if (user) {
-      const organization= await Organization.findByPk(1)
-      await sendRegistrationEmail(user.email, user.firstName, user.lastName, organization.facebook, organization.linkedIn, organization.instagram);
+      const organization = await Organization.findByPk(1);
+      await sendRegistrationEmail(
+        user.email,
+        user.firstName,
+        user.lastName,
+        organization.facebook,
+        organization.linkedIn,
+        organization.instagram
+      );
       delete user.password;
       const token = signToken(user);
       return res.status(201).json(token);
