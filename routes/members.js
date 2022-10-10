@@ -32,14 +32,14 @@ const {
 router.get("/", isAdmin, getMembers);
 /**
  * @openapi
- * /members/:
+ * /members/{id}:
  *  get:
  *     tags:
  *     - Members
  *     description: Obtiene un miembro concreto.
  *     parameters:
  *     - name: id
- *       in: query
+ *       in: path
  *       description: Solicita el id de un miembro existente.
  *       required: true
  *     responses:
