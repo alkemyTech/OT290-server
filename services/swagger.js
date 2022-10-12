@@ -22,6 +22,14 @@ const swaggerSpec = {
         bearerAuth: [],
       },
     ],
+    servers: [
+      {
+        url: "http://localhost:3000/",
+      },
+      {
+        url: "http://localhost:3059/", // Ejemplo de server opcional
+      },
+    ],
   },
 
   apis: [`${path.join(__dirname, "../routes/*.js")}`],
