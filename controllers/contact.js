@@ -6,7 +6,6 @@ const { sendContactEmail } = require("../helpers/email");
 const getContacts = async (req, res) => {
   try {
     const contacts = await Contact.findAll();
-    console.log(contacts);
     res.send(contacts);
   } catch (error) {
     res.send(error);

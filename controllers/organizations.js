@@ -5,7 +5,6 @@ const { validationResult } = require("express-validator");
 const getOrganizations = async (req, res) => {
   try {
     const organizations = await Organization.findAll();
-    console.log(organizations);
     res.send(organizations);
   } catch (error) {
     res.send(error);
@@ -66,18 +65,8 @@ const updateOrganization = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   //Nano: Continue if no errors
   const id = 1;
-  const {
-    name,
-    image,
-    address,
-    phone,
-    email,
-    welcomeText,
-    aboutUsText,
-    facebook,
-    linkedin,
-    instagram,
-  } = req.body;
+  const { name, image, address, phone, email, welcomeText, aboutUsText } =
+    req.body;
 
   try {
     const [organization, created] = await Organization.findOrCreate({
