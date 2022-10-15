@@ -58,22 +58,30 @@ const createContact = async (req, res) => {
 };
 
 const updateContact = async (req, res) => {
-  const { id } = req.params;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
     const { name, email, phone, message } = req.body;
-    const contact = await Contact.update({
-      name,
-      phone,
-      email,
-      message,
-    });
+    const { id } = req.params;
+    const contactUpdate = await Contact.findByPk(id);
+    if (!contactUpdate) {
+      return res.sendStatus(404);
+    }
+    const contact = await Contact.update(
+      { name, phone, email, message },
+      {
+        where: {
+          id,
+        },
+      }
+    );
 
-    return { contact };
-  } catch {}
+    res.send(`User with updated id ${id}`);
+  } catch (error) {
+    res.send(error);
+  }
 };
 
 const deleteContact = async (req, res) => {

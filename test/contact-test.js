@@ -16,13 +16,14 @@ let conseguirDatos = async () => {
   let getC = await agent
     .get("/contacts")
     .set("authorization", "Bearer " + get.body.accesToken);
-  //Consiguiendo la respuesta sin autenticacion
-
-  return { get, getC };
+  //Consiguiendo el ultimo elemento creado
+  let listC = getC.body;
+  let contact = listC.pop();
+  return { get, getC, contact };
 };
 
 //Descripcion de la suit de pruebas para contact
-describe("main suite", () => {
+describe("main suite: Test de pruebas para enpoint contact", () => {
   describe("Caso 1 - GET contact sin autenticacion", () => {
     it("Comprueba que sucede en caso de que no estar autenticado", async () => {
       //Consiguien response sin autenticacion
@@ -143,17 +144,59 @@ describe("main suite", () => {
       let datos = await conseguirDatos();
       let token = datos.get.body.accesToken;
       let res = await agent
-        .put("/contacts")
+        .put("/contacts/1")
         .set("authorization", "Bearer " + token)
         .send({
-          name: "", //Campo faltante para prueba
+          name: "UserPa",
           phone: 123421,
           email: "usuariop@gmail.com",
           message: "Hola esto es una prueba",
         });
 
       //Confirmaciones
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(200);
+    });
+  });
+  describe("Caso 9 - PUT contact id incorrecto", () => {
+    it("Comprueba la actualizacion de un contacto en caso de id incorrecto", async () => {
+      let datos = await conseguirDatos();
+      let token = datos.get.body.accesToken;
+      let res = await agent
+        .put("/contacts/1000")
+        .set("authorization", "Bearer " + token)
+        .send({
+          name: "UserPa",
+          phone: 123421,
+          email: "usuariop@gmail.com",
+          message: "Hola esto es una prueba",
+        });
+      //Confirmaciones
+      expect(res).to.have.status(404);
+    });
+  });
+  describe("Caso 10 - DELETE contact id correcto", () => {
+    it("Eliminar un contacto id correcto", async () => {
+      let datos = await conseguirDatos();
+      let token = datos.get.body.accesToken;
+      let id = datos.contact.id;
+      let res = await agent
+        .delete(`/contacts/${id}`)
+        .set("authorization", "Bearer " + token);
+
+      //Confirmaciones
+      expect(res).to.have.status(200);
+    });
+  });
+  describe("Caso 11 - DELETE contact id incorrecto", () => {
+    it("Eliminar un contacto id incorrecto", async () => {
+      let datos = await conseguirDatos();
+      let token = datos.get.body.accesToken;
+      let res = await agent
+        .delete("/contacts/1000")
+        .set("authorization", "Bearer " + token);
+
+      //Confirmaciones
+      expect(res).to.have.status(404);
     });
   });
 });
