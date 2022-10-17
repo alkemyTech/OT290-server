@@ -15,12 +15,14 @@ const getOrganization = async (req, res) => {
   // const { id } = req.params;
   const id = 1;
   try {
-    const organization = await Organization.findByPk(
-      id,
-      {include:[{
-        model: Slides,
-        order: ['order','ASC']
-      }]});
+    const organization = await Organization.findByPk(id, {
+      include: [
+        {
+          model: Slides,
+          order: ["order", "ASC"],
+        },
+      ],
+    });
     if (!organization) {
       return res.send("Not found");
     }
@@ -36,7 +38,8 @@ const getOrganization = async (req, res) => {
 };
 
 const createOrganization = async (req, res) => {
-  const { name, image, address, phone, email, welcomeText, aboutUsText } = req.body;
+  const { name, image, address, phone, email, welcomeText, aboutUsText } =
+    req.body;
 
   try {
     const organization = await Organization.create({
@@ -58,21 +61,12 @@ const createOrganization = async (req, res) => {
 const updateOrganization = async (req, res) => {
   //Nano: Validate errors in request to stop if there's any
   const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+  if (!errors.isEmpty())
+    return res.status(400).json({ errors: errors.array() });
   //Nano: Continue if no errors
   const id = 1;
-  const {
-    name,
-    image,
-    address,
-    phone,
-    email,
-    welcomeText,
-    aboutUsText,
-    facebook,
-    linkedin,
-    instagram,
-  } = req.body;
+  const { name, image, address, phone, email, welcomeText, aboutUsText } =
+    req.body;
 
   try {
     const [organization, created] = await Organization.findOrCreate({

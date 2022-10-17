@@ -33,7 +33,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerSpec)));
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerJsDoc(swaggerSpec))
+);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/roles", rolesRouter);
@@ -43,7 +47,7 @@ app.use("/members", membersRouter);
 app.use("/organization", organizationRouter);
 app.use("/news", newsRouter);
 app.use("/contacts", contactRouter);
-app.use("/slides",slidesRouter);
+app.use("/slides", slidesRouter);
 app.use("/news", newsRouter);
 app.use("/comments", commentsRouter);
 app.use("/backoffice/contacts", backofficeRouter);

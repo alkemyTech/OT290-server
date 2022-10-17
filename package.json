@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start:dev": "nodemon ./bin/www"
+    "start:dev": "nodemon ./bin/www",
+    "test": "mocha  --exit"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
@@ -12,6 +13,8 @@
     "aws-sdk": "^2.1217.0",
     "base-64": "^1.0.0",
     "bcrypt": "^5.0.1",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -21,6 +24,7 @@
     "express-validator": "^6.14.2",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^10.0.0",
     "morgan": "~1.9.1",
     "mysql2": "^2.2.3",
     "rand-token": "^1.0.1",
