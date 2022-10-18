@@ -32,18 +32,8 @@ describe("main suite: Test de pruebas para enpoint activities", () => {
       expect(res).to.have.status(200);
     });
   });
-  /** 
-  describe("Caso 2 - GET contact", () => {
-    it("Comprueba el response de contact", async () => {
-      let datos = await conseguirDatos();
-      let getContact = datos.getC;
 
-      //Confirmaciones
-      expect(getContact).to.have.status(200);
-      getContact.body[0].should.be.a("object");
-    });
-  });
-  describe("Caso 3 - GET contact datos", () => {
+  describe("Caso 2 - GET activities datos", () => {
     it("Validacion tipo de datos recivios en response", async () => {
       let datos = await conseguirDatos();
       let getContact = datos.getC;
@@ -59,12 +49,12 @@ describe("main suite: Test de pruebas para enpoint activities", () => {
           "El tipo de dato esperado es un string"
         );
         assert.typeOf(
-          contact.phone,
-          "number",
+          contact.image,
+          "string",
           "El tipo de dato esperado es un number"
         );
         assert.typeOf(
-          contact.email,
+          contact.content,
           "string",
           "El tipo de dato esperado es un string"
         );
@@ -72,126 +62,75 @@ describe("main suite: Test de pruebas para enpoint activities", () => {
       });
     });
   });
-  describe("Caso 4 - GET contact id correcto", () => {
-    it("Comprueba el response de contact con id correcto", async () => {
-      let datos = await conseguirDatos();
-      let token = datos.get.body.accesToken;
-      let res = await agent
-        .get("/contacts/1")
-        .set("authorization", "Bearer " + token);
 
-      //Confirmaciones
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.contains(Object);
-    });
-  });
-  describe("Caso 5 - GET contact id incorrecto", () => {
-    it("Comprueba el response de contact con id incorrecto", async () => {
+  describe("Caso 3 - POST activities creacion de actividad ", () => {
+    it("Comprueba la creacion de un actividad", async () => {
       let datos = await conseguirDatos();
       let token = datos.get.body.accesToken;
       let res = await agent
-        .get("/contacts/1000")
-        .set("authorization", "Bearer " + token);
-
-      //Confirmaciones
-      expect(res).to.have.status(404);
-      expect(res.body).to.have.contains(Object);
-    });
-  });
-  describe("Caso 6 - POST contact creacion de contacto ", () => {
-    it("Comprueba la creacion de un contacto", async () => {
-      let datos = await conseguirDatos();
-      let token = datos.get.body.accesToken;
-      let res = await agent
-        .post("/contacts")
+        .post("/activities")
         .set("authorization", "Bearer " + token)
         .send({
           name: "usuarioP",
-          phone: 123421,
-          email: "usuariop@gmail.com",
-          message: "Hola esto es una prueba",
+          image: "aaqui va una imagen",
+          content: "Esto es un contenido",
         });
       //Confirmaciones
-      expect(res).to.have.status(200);
+      expect(res).to.have.status(201);
       expect(res.body).to.have.contains(Object);
     });
   });
-  describe("Caso 7 - POST contact fala de capos ", () => {
-    it("Comprueba la creacion de un contacto cuando faltan campos", async () => {
+
+  describe("Caso 4 - POST avtivitie fala de capos ", () => {
+    it("Comprueba la creacion de un actividades cuando faltan campos", async () => {
       let datos = await conseguirDatos();
       let token = datos.get.body.accesToken;
       let res = await agent
-        .post("/contacts")
+        .post("/activities")
         .set("authorization", "Bearer " + token)
         .send({
-          name: "", //Campo faltante para prueba
-          phone: 123421,
-          email: "usuariop@gmail.com",
-          message: "Hola esto es una prueba",
+          name: "",
+          image: "aaqui va una imagen",
+          content: "Esto es un contenido",
         });
 
       //Confirmaciones
       expect(res).to.have.status(400);
     });
   });
-  describe("Caso 8 - PUT contact ", () => {
-    it("Comprueba la actualizacion de un contacto", async () => {
+
+  describe("Caso 5 - PUT activities ", () => {
+    it("Comprueba la actualizacion de una actividad", async () => {
       let datos = await conseguirDatos();
       let token = datos.get.body.accesToken;
       let res = await agent
-        .put("/contacts/1")
+        .put("/activities/1")
         .set("authorization", "Bearer " + token)
         .send({
-          name: "UserPa",
-          phone: 123421,
-          email: "usuariop@gmail.com",
-          message: "Hola esto es una prueba",
+          name: "123",
+          image: "aaqui va una imagen",
+          content: "Esto es un contenido",
         });
 
       //Confirmaciones
       expect(res).to.have.status(200);
     });
   });
-  describe("Caso 9 - PUT contact id incorrecto", () => {
-    it("Comprueba la actualizacion de un contacto en caso de id incorrecto", async () => {
+
+  describe("Caso 6 - PUT activities id incorrecto", () => {
+    it("Comprueba la actualizacion de una actividad en caso de id incorrecto", async () => {
       let datos = await conseguirDatos();
       let token = datos.get.body.accesToken;
       let res = await agent
-        .put("/contacts/1000")
+        .put("/activities/1000")
         .set("authorization", "Bearer " + token)
         .send({
-          name: "UserPa",
-          phone: 123421,
-          email: "usuariop@gmail.com",
-          message: "Hola esto es una prueba",
+          name: "1234",
+          image: "aaqui va una imagen",
+          content: "Esto es un contenido",
         });
       //Confirmaciones
       expect(res).to.have.status(404);
     });
   });
-  describe("Caso 10 - DELETE contact id correcto", () => {
-    it("Eliminar un contacto id correcto", async () => {
-      let datos = await conseguirDatos();
-      let token = datos.get.body.accesToken;
-      let id = datos.contact.id;
-      let res = await agent
-        .delete(`/contacts/${id}`)
-        .set("authorization", "Bearer " + token);
-
-      //Confirmaciones
-      expect(res).to.have.status(200);
-    });
-  });
-  describe("Caso 11 - DELETE contact id incorrecto", () => {
-    it("Eliminar un contacto id incorrecto", async () => {
-      let datos = await conseguirDatos();
-      let token = datos.get.body.accesToken;
-      let res = await agent
-        .delete("/contacts/1000")
-        .set("authorization", "Bearer " + token);
-
-      //Confirmaciones
-      expect(res).to.have.status(404);
-    });
-  });*/
 });
