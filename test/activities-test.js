@@ -14,30 +14,25 @@ let conseguirDatos = async () => {
     .send({ email: "adminUser5@test.com", password: "##StrongPassword05" });
   //Consiguiendo la respuesta del servidor para realizar validaciones
   let getC = await agent
-    .get("/contacts")
+    .get("/activities")
     .set("authorization", "Bearer " + get.body.accesToken);
   //Consiguiendo el ultimo elemento creado
   let listC = getC.body;
   let contact = listC.pop();
   return { get, getC, contact };
 };
-/** 
+
 //Descripcion de la suit de pruebas para contact
-describe("main suite: Test de pruebas para enpoint contact", () => {
-  describe("Caso 1 - GET contact sin autenticacion", () => {
+describe("main suite: Test de pruebas para enpoint activities", () => {
+  describe("Caso 1 - GET activities", () => {
     it("Comprueba que sucede en caso de que no estar autenticado", async () => {
       //Consiguien response sin autenticacion
-      let res = await agent.get("/contacts");
-
+      let res = await agent.get("/activities");
       //Confirmaciones
-      expect(res).to.have.status(403);
-      assert.equal(
-        res.text,
-        "Forbidden",
-        "getContact.txt tiene que ser igual `Forbidden`"
-      );
+      expect(res).to.have.status(200);
     });
   });
+  /** 
   describe("Caso 2 - GET contact", () => {
     it("Comprueba el response de contact", async () => {
       let datos = await conseguirDatos();
@@ -198,5 +193,5 @@ describe("main suite: Test de pruebas para enpoint contact", () => {
       //Confirmaciones
       expect(res).to.have.status(404);
     });
-  });
-});*/
+  });*/
+});

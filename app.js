@@ -19,6 +19,7 @@ const contactRouter = require("./routes/contact");
 const slidesRouter = require("./routes/slides");
 const commentsRouter = require("./routes/comments");
 const backofficeRouter = require("./routes/backofficeContacts");
+const activitiesRouter = require("./routes/activities");
 const { swaggerJsDoc, swaggerUi, swaggerSpec } = require("./services/swagger");
 const app = express();
 app.use(cors());
@@ -51,6 +52,7 @@ app.use("/slides", slidesRouter);
 app.use("/news", newsRouter);
 app.use("/comments", commentsRouter);
 app.use("/backoffice/contacts", backofficeRouter);
+app.use("/activities", activitiesRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
