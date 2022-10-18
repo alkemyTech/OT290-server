@@ -32,7 +32,7 @@ const {
 router.get("/", getCategories);
 /**
  * @openapi
- * /categories/:id:
+ * /categories/{id}:
  *  get:
  *     tags:
  *     - Categorias
@@ -90,7 +90,7 @@ router.post(
 );
 /**
  * @openapi
- * /categories/:id:
+ * /categories/{id}:
  *  put:
  *     tags:
  *     - Categorias
@@ -136,7 +136,7 @@ router.put(
 );
 /**
  * @openapi
- * /categories/:id:
+ * /categories/{id}:
  *  delete:
  *     tags:
  *     - Categorias
