@@ -112,6 +112,7 @@ const updateOrganization = async (req, res) => {
     }
     res.send(`Organization updated successfully`);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };

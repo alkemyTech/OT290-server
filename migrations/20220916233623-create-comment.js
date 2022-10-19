@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      
+      newsId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "News",
+          key: "id",
+        },
+      },
       userId: {
         type: Sequelize.INTEGER,
         references: {
@@ -30,6 +38,10 @@ module.exports = {
         type: Sequelize.DATE,
       },
       updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      deletedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },

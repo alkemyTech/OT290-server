@@ -19,6 +19,7 @@ const contactRouter = require("./routes/contact");
 const slidesRouter = require("./routes/slides");
 const commentsRouter = require("./routes/comments");
 const backofficeRouter = require("./routes/backofficeContacts");
+const activitiesRouter = require("./routes/activities");
 const { swaggerJsDoc, swaggerUi, swaggerSpec } = require("./services/swagger");
 const app = express();
 app.use(cors());
@@ -33,7 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerSpec)));
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerJsDoc(swaggerSpec))
+);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/roles", rolesRouter);
@@ -43,10 +48,11 @@ app.use("/members", membersRouter);
 app.use("/organization", organizationRouter);
 app.use("/news", newsRouter);
 app.use("/contacts", contactRouter);
-app.use("/slides",slidesRouter);
+app.use("/slides", slidesRouter);
 app.use("/news", newsRouter);
 app.use("/comments", commentsRouter);
 app.use("/backoffice/contacts", backofficeRouter);
+app.use("/activities", activitiesRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

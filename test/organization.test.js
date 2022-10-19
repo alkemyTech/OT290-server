@@ -3,7 +3,6 @@ const chai = require("chai");
 const { expect } = require("chai");
 const chaiHttp = require("chai-http");
 const server = require("../app");
-const { createOrganization } = require("../controllers/organizations");
 const sandbox = require("sinon").createSandbox();
 
 chai.use(chaiHttp);
@@ -171,7 +170,7 @@ describe("Organization endpoint testing", () => {
         });
     });
 
-    it("Should response with 'Organization updated' message if fullfilled {server}/organization/public", (done) => {
+    it("Should response with 'Organization updated successfully' message if fullfilled {server}/organization/public", (done) => {
       chai
         .request(server)
         .post(`/organization/public`)
