@@ -21,7 +21,7 @@ let conseguirDatos = async () => {
   let contact = listC.pop();
   return { get, getC, contact };
 };
-/** 
+
 //Descripcion de la suit de pruebas para contact
 describe("main suite: Test de pruebas para enpoint contact", () => {
   describe("Caso 1 - GET contact sin autenticacion", () => {
@@ -199,4 +199,4 @@ describe("main suite: Test de pruebas para enpoint contact", () => {
       expect(res).to.have.status(404);
     });
   });
-});*/
+});
