@@ -1,5 +1,5 @@
 const { News } = require('../models');
-
+const { validationResult } = require("express-validator");
 const getAllNews = async (req, res) => {
   try {
     const url = req.protocol + "://" + req.get('host') +"/news";
@@ -49,7 +49,10 @@ const getNews = async (req, res) => {
   }
 };
 const createNews = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
   try {
+    
     const {
       name,
       content,
