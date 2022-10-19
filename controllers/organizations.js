@@ -38,8 +38,7 @@ const getOrganization = async (req, res) => {
 };
 
 const createOrganization = async (req, res) => {
-  const { name, image, address, phone, email, welcomeText, aboutUsText } =
-    req.body;
+  const { name, image, address, phone, email, welcomeText, aboutUsText } = req.body;
 
   try {
     const organization = await Organization.create({
@@ -61,12 +60,21 @@ const createOrganization = async (req, res) => {
 const updateOrganization = async (req, res) => {
   //Nano: Validate errors in request to stop if there's any
   const errors = validationResult(req);
-  if (!errors.isEmpty())
-    return res.status(400).json({ errors: errors.array() });
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
   //Nano: Continue if no errors
   const id = 1;
-  const { name, image, address, phone, email, welcomeText, aboutUsText } =
-    req.body;
+  const {
+    name,
+    image,
+    address,
+    phone,
+    email,
+    welcomeText,
+    aboutUsText,
+    facebook,
+    linkedin,
+    instagram,
+  } = req.body;
 
   try {
     const [organization, created] = await Organization.findOrCreate({
@@ -102,8 +110,9 @@ const updateOrganization = async (req, res) => {
         { where: { id } }
       );
     }
-    res.send(`Organization update id ${name}`);
+    res.send(`Organization updated successfully`);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };

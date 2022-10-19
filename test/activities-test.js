@@ -15,7 +15,7 @@ let conseguirDatos = async () => {
   //Consiguiendo la respuesta del servidor para realizar validaciones
   let getC = await agent
     .get("/activities")
-    .set("authorization", "Bearer " + get.body.accesToken);
+    .set("authorization", "Bearer " + get.body.accessToken);
   //Consiguiendo el ultimo elemento creado
   let listC = getC.body;
   let contact = listC.pop();
@@ -38,26 +38,10 @@ describe("main suite: Test de pruebas para enpoint activities", () => {
       let datos = await conseguirDatos();
       let getContact = datos.getC;
       getContact.body.forEach((contact) => {
-        assert.typeOf(
-          contact.id,
-          "number",
-          "El tipo de dato esperado es un string"
-        );
-        assert.typeOf(
-          contact.name,
-          "string",
-          "El tipo de dato esperado es un string"
-        );
-        assert.typeOf(
-          contact.image,
-          "string",
-          "El tipo de dato esperado es un number"
-        );
-        assert.typeOf(
-          contact.content,
-          "string",
-          "El tipo de dato esperado es un string"
-        );
+        assert.typeOf(contact.id, "number", "El tipo de dato esperado es un string");
+        assert.typeOf(contact.name, "string", "El tipo de dato esperado es un string");
+        assert.typeOf(contact.image, "string", "El tipo de dato esperado es un number");
+        assert.typeOf(contact.content, "string", "El tipo de dato esperado es un string");
         //assert.typeOf(contact.message, "text");
       });
     });
@@ -66,7 +50,7 @@ describe("main suite: Test de pruebas para enpoint activities", () => {
   describe("Caso 3 - POST activities creacion de actividad ", () => {
     it("Comprueba la creacion de un actividad", async () => {
       let datos = await conseguirDatos();
-      let token = datos.get.body.accesToken;
+      let token = datos.get.body.accessToken;
       let res = await agent
         .post("/activities")
         .set("authorization", "Bearer " + token)
@@ -84,7 +68,7 @@ describe("main suite: Test de pruebas para enpoint activities", () => {
   describe("Caso 4 - POST avtivitie fala de capos ", () => {
     it("Comprueba la creacion de un actividades cuando faltan campos", async () => {
       let datos = await conseguirDatos();
-      let token = datos.get.body.accesToken;
+      let token = datos.get.body.accessToken;
       let res = await agent
         .post("/activities")
         .set("authorization", "Bearer " + token)
@@ -102,7 +86,7 @@ describe("main suite: Test de pruebas para enpoint activities", () => {
   describe("Caso 5 - PUT activities ", () => {
     it("Comprueba la actualizacion de una actividad", async () => {
       let datos = await conseguirDatos();
-      let token = datos.get.body.accesToken;
+      let token = datos.get.body.accessToken;
       let res = await agent
         .put("/activities/1")
         .set("authorization", "Bearer " + token)
@@ -120,7 +104,7 @@ describe("main suite: Test de pruebas para enpoint activities", () => {
   describe("Caso 6 - PUT activities id incorrecto", () => {
     it("Comprueba la actualizacion de una actividad en caso de id incorrecto", async () => {
       let datos = await conseguirDatos();
-      let token = datos.get.body.accesToken;
+      let token = datos.get.body.accessToken;
       let res = await agent
         .put("/activities/1000")
         .set("authorization", "Bearer " + token)
