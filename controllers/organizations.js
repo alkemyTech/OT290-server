@@ -15,12 +15,14 @@ const getOrganization = async (req, res) => {
   // const { id } = req.params;
   const id = 1;
   try {
-    const organization = await Organization.findByPk(
-      id,
-      {include:[{
-        model: Slides,
-        order: ['order','ASC']
-      }]});
+    const organization = await Organization.findByPk(id, {
+      include: [
+        {
+          model: Slides,
+          order: ["order", "ASC"],
+        },
+      ],
+    });
     if (!organization) {
       return res.send("Not found");
     }
@@ -108,7 +110,7 @@ const updateOrganization = async (req, res) => {
         { where: { id } }
       );
     }
-    res.send(`Organization update id ${name}`);
+    res.send(`Organization updated successfully`);
   } catch (error) {
     res.status(500).send(error);
   }
