@@ -7,7 +7,10 @@ module.exports = {
       const [roleName, roleId] = i < 5 ? ["standard", 2] : ["admin", 1];
       // Nano: Create salt and make hash to encrypt passwords
       const salt = await bcrypt.genSalt();
-      const encryptedPassword = await bcrypt.hash(`##StrongPassword0${i}`, salt);
+      const encryptedPassword = await bcrypt.hash(
+        `##StrongPassword0${i}`,
+        salt
+      );
       const user = {
         firstName: `${roleName}User${i}`,
         lastName: "Demo",
@@ -27,11 +30,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    await queryInterface.bulkDelete("Users", null, {});
   },
 };
