@@ -16,7 +16,7 @@ const signToken = (user) => {
     JWT_SECRET
   );
   refreshTokens[refreshToken] = user.email;
-  return { exp, data: user, accessToken, refreshToken };
+  return { exp, accessToken, refreshToken };
 };
 
 // This should be used when a token needs to be verified on a http request.
