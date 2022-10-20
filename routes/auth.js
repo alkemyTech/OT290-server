@@ -68,15 +68,9 @@ router.post(
  *                  - email
  *                  - password
  *                properties:
- *                  firstName:
- *                    type: string
- *                  lastName:
- *                    type: string
  *                  email:
  *                    type: string
  *                  password:
- *                    type: string
- *                  photo:
  *                    type: string
  *     responses:
  *       401.1:
@@ -99,11 +93,6 @@ router.post(
  *     tags:
  *     - Auth
  *     description: Informacion de usuario logueado
- *     parameters:
- *      - in: header
- *        name: authorization
- *        description: Token del usuario
- *        required: true
  *     responses:
  *       404:
  *         description: Usario no encontrado
