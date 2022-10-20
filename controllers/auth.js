@@ -13,7 +13,8 @@ const userRegister = async (req, res) => {
   try {
     //Nano: Validate errors in request to stop if there's any
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
     // Nano: Continue with user registry
     const user = await createUser(req, res);
 
@@ -41,7 +42,8 @@ const userLogin = async (req, res) => {
     const { email, password } = req.body;
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
     const user = await User.findOne({ where: { email } });
     const pass = user.password;
