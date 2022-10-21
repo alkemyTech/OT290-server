@@ -1,6 +1,8 @@
 const express = require("express");
 const { body } = require("express-validator");
 const router = express.Router();
+const { isAuthenticated } = require("../middlewares/isAuthenticated");
+const { isAdmin } = require("../middlewares/isAdmin");
 
 const {
   getCategories,
@@ -29,7 +31,7 @@ const {
  *       200:
  *         description: Información de todas las categorias obtenidas satisfactoriamente.
  */
-router.get("/", getCategories);
+router.get("/", isAuthenticated, isAdmin, getCategories);
 /**
  * @openapi
  * /categories/{id}:
@@ -50,7 +52,7 @@ router.get("/", getCategories);
  *       500:
  *         description: Error al obtener informacion de la categoria
  */
-router.get("/:id", getCategory);
+router.get("/:id", isAuthenticated, isAdmin, getCategory);
 /**
  * @openapi
  * /categories:
@@ -83,6 +85,8 @@ router.get("/:id", getCategory);
  */
 router.post(
   "/",
+  isAuthenticated,
+  isAdmin,
   body("name").exists(),
   body("name").notEmpty(),
   body("name").isString(),
@@ -130,7 +134,8 @@ router.post(
  */
 router.put(
   "/:id",
-
+  isAuthenticated,
+  isAdmin,
   body("name").isString(),
   updateCategory
 );
@@ -154,6 +159,6 @@ router.put(
  *       500:
  *         description: Error al borrar la categoria.
  */
-router.delete("/:id", deleteCategory);
+router.delete("/:id", isAuthenticated, isAdmin, deleteCategory);
 
 module.exports = router;
