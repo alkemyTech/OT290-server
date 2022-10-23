@@ -1,5 +1,7 @@
 const { validationResult } = require("express-validator");
 const { Category } = require("../models");
+const { uploadFileS3, deleteFileS3 } = require("../services/S3storage");
+const { decodeImage, generateImageName } = require("../services/images");
 
 const getCategories = async (req, res) => {
   try {
@@ -42,7 +44,13 @@ const createCategory = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
     const { name, description, image } = req.body;
-    const category = await Category.create({ name, description, image });
+    let imageInfo = decodeImage(image);
+    let imageTimestamp = Date.now();
+    let imageUrl = await uploadFileS3(
+      imageInfo.datos,generateImageName('category', imageTimestamp, imageInfo.extension)
+    );
+
+    const category = await Category.create({ name, description, image: imageUrl});
     category.save();
     return res.status(201).json(category);
   } catch (error) {
@@ -55,14 +63,18 @@ const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description, image } = req.body;
-
     const category = await Category.findByPk(id);
     if (!category) {
       return res.sendStatus(404);
-    }
-
+    };
+    await deleteFileS3(category.image);
+    let imageInfo = decodeImage(image);
+    let imageTimestamp = Date.now();
+    let imageUrl = await uploadFileS3(
+      imageInfo.datos,generateImageName('slide', imageTimestamp, imageInfo.extension)
+    ); 
     const update = await Category.update(
-      { name, description, image },
+      { name, description, image: imageUrl },
       {
         where: {
           id,
@@ -82,6 +94,7 @@ const deleteCategory = async (req, res) => {
     if (!category) {
       return res.sendStatus(404);
     }
+    await deleteFileS3(category.image);
     await Category.destroy({
       where: {
         id,
